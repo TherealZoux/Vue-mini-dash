@@ -28,10 +28,11 @@
           <hr class="my-2 w-full text-gray-200"/>
       </template>
       <template #submenulabel="{ item }">
+        <span :class="item.icon"></span>
         <span class="text-primary font-bold">{{ item.label }}</span>
       </template>
       <template #item="{ item, props }">
-        <a v-ripple class="flex items-center" v-bind="props.action">
+        <a v-ripple class="flex items-center" v-bind="props.action" >
           <span :class="item.icon" />
           <span>{{ item.label }}</span>
           <Badge v-if="item.badge" class="ml-auto" :value="item.badge" />
@@ -42,6 +43,9 @@
           >
         </a>
       </template>
+      <template #end>
+        <Button label="Log out" class="w-full !bg-[#fff] !border-[#ff666b] hover:!bg-[#ff666b] !text-red-400 hover:!text-white" @click="handleLogout" />
+    </template>
 
     </Menu>
   </div>
@@ -50,11 +54,22 @@
 <script setup>
 import { ref } from "vue";
 import Menu from 'primevue/menu';
+import Button from "primevue/button"
+import router from "@/router";
 
-const items = ref([
-
+const items = ref([{
+  label: 'Login',
+  icon: 'pi pi-palette',
+  action: ()=> {console.log("hello")}
+  
+}
   
 ]);
+  const handleLogout = ()=>{
+    localStorage.clear()
+    window.location.reload()
+  }
+
 </script>
 
 <style>
