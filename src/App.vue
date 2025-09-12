@@ -1,11 +1,35 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import Toast from "primevue/toast"
+import { computed, onMounted, ref } from 'vue'
+import router from './router'
+import { useAuthStore } from './stores/AuthStore'
+import Spinner from './components/Spinner.vue'
+
+const authStore = useAuthStore()
+const token = ref()
+const sidebar = computed(()=> authStore.sidebar)
+const loading = ref(true)
+onMounted(async ()=>{
+  const res = await authStore.checkAuth()
+  if(!res){
+    router.push('/login')
+  }
+  setTimeout(()=> {
+    loading.value = authStore.loading
+  },1000)
+  
+})
 </script>
 
 <template>
-  <main class="flex overflow-hidden h-[100vh]">
+  <div v-if="loading" class="h-[100vh] flex justify-center items-center">
+    <Spinner />
+  </div>
 
-    <Sidebar />
+  <main class="flex overflow-hidden h-[100vh]" v-else>
+    <Toast />
+    <Sidebar v-if="sidebar"/>
     <RouterView />
   </main>
 </template>
