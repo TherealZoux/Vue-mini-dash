@@ -1,21 +1,9 @@
 <template>
-  <nav class="bg-[#f2f2f2]">
-    <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
+  <nav class="border-b-1 border-gray-200">
+    <div class="w-full px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-[2.4rem]">
         <!-- Left side - Search and Logo -->
-        <div class="flex items-center space-x-4">
-          <!-- Search Bar -->
-          <!-- <div class="relative hidden md:block">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <i class="pi pi-search text-gray-400"></i>
-            </div>
-            <input
-              type="text"
-              placeholder="Search"
-              class="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white  text-gray-900 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm"
-            />
-          </div> -->
-        </div>
+        <div class="flex items-center space-x-4"></div>
 
         <!-- Right side - Actions and User Menu -->
         <div class="flex items-center space-x-4">
@@ -26,14 +14,16 @@
             text
             rounded
             @click="toggleDarkMode"
-            class="!text-gray-600 dark:!text-gray-300 hover:!bg-gray-100 dark:hover:!bg-gray-700"
-            v-tooltip.top="isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+            class=" hover:!bg-gray-100 dark:hover:!bg-gray-700"
+            v-tooltip.top="
+              isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'
+            "
           />
 
           <!-- Language Switcher -->
           <div class="relative">
             <Button
-              :icon="currentLanguage.flag"
+              icon="pi pi-globe"
               severity="secondary"
               text
               rounded
@@ -42,7 +32,7 @@
               v-tooltip.top="'Change Language'"
             />
             <i class="pi pi-chevron-down text-xs ml-1 text-gray-400"></i>
-            
+
             <!-- Language Dropdown -->
             <div
               v-if="showLanguageDropdown"
@@ -56,93 +46,10 @@
               >
                 <span class="mr-3">{{ lang.flag }}</span>
                 <span>{{ lang.name }}</span>
-                <i v-if="currentLanguage.code === lang.code" class="pi pi-check ml-auto text-blue-500"></i>
-              </button>
-            </div>
-          </div>
-
-          <!-- Notifications -->
-          <Button
-            icon="pi pi-bell"
-            severity="secondary"
-            text
-            rounded
-            class="!text-gray-600 dark:!text-gray-300 hover:!bg-gray-100 dark:hover:!bg-gray-700 relative"
-            v-tooltip.top="'Notifications'"
-          >
-            <Badge v-if="notificationCount > 0" :value="notificationCount" severity="danger" class="absolute -top-1 -right-1" />
-          </Button>
-
-          <!-- Shopping Cart -->
-          <Button
-            icon="pi pi-shopping-bag"
-            severity="secondary"
-            text
-            rounded
-            class="!text-gray-600 dark:!text-gray-300 hover:!bg-gray-100 dark:hover:!bg-gray-700 relative"
-            v-tooltip.top="'Shopping Cart'"
-          >
-            <Badge v-if="cartCount > 0" :value="cartCount" severity="info" class="absolute -top-1 -right-1" />
-          </Button>
-
-          <!-- User Profile Dropdown -->
-          <div class="relative">
-            <Button
-              @click="toggleUserDropdown"
-              class="flex items-center space-x-2 !bg-transparent hover:!bg-gray-100 dark:hover:!bg-gray-700 !border-0 !p-2"
-            >
-              <img
-                :src="userData?.image || '/default-avatar.png'"
-                :alt="userData?.firstName"
-                class="w-8 h-8 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600"
-              />
-              <div class="hidden md:block text-left">
-                <p class="text-sm font-medium text-gray-900 dark:text-white">
-                  {{ userData?.firstName }} {{ userData?.lastName }}
-                </p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">
-                  {{ userData?.role === 'moderator' ? 'Premium User' : 'Standard User' }}
-                </p>
-              </div>
-              <i class="pi pi-chevron-down text-xs text-gray-400"></i>
-            </Button>
-
-            <!-- User Dropdown Menu -->
-            <div
-              v-if="showUserDropdown"
-              class="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-700 rounded-md shadow-lg py-1 z-50 border border-gray-200 dark:border-gray-600"
-            >
-              <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-600">
-                <p class="text-sm font-medium text-gray-900 dark:text-white">
-                  {{ userData?.firstName }} {{ userData?.lastName }}
-                </p>
-                <p class="text-sm text-gray-500 dark:text-gray-400">{{ userData?.email }}</p>
-              </div>
-              
-              <button
-                @click="goToProfile"
-                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
-              >
-                <i class="pi pi-user mr-3"></i>
-                <span>Profile</span>
-              </button>
-              
-              <button
-                @click="goToSettings"
-                class="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
-              >
-                <i class="pi pi-cog mr-3"></i>
-                <span>Settings</span>
-              </button>
-              
-              <div class="border-t border-gray-200 dark:border-gray-600"></div>
-              
-              <button
-                @click="handleLogout"
-                class="flex items-center w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-              >
-                <i class="pi pi-sign-out mr-3"></i>
-                <span>Sign out</span>
+                <i
+                  v-if="currentLanguage.code === lang.code"
+                  class="pi pi-check ml-auto text-blue-500"
+                ></i>
               </button>
             </div>
           </div>
@@ -153,7 +60,9 @@
     <!-- Mobile Search Bar -->
     <div class="md:hidden px-4 pb-4">
       <div class="relative">
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <div
+          class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+        >
           <i class="pi pi-search text-gray-400"></i>
         </div>
         <input
@@ -167,112 +76,110 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { useUserStore } from '@/stores/UserStore'
-import Button from 'primevue/button'
-import Badge from 'primevue/badge'
+import { ref, computed, onMounted, onUnmounted } from "vue";
+import { useRouter } from "vue-router";
+import { useUserStore } from "@/stores/UserStore";
+import Button from "primevue/button";
+import Badge from "primevue/badge";
 
-const router = useRouter()
-const userStore = useUserStore()
+const router = useRouter();
+const userStore = useUserStore();
 
 // Reactive data
-const isDarkMode = ref(false)
-const showLanguageDropdown = ref(false)
-const showUserDropdown = ref(false)
-const notificationCount = ref(3)
-const cartCount = ref(2)
+const isDarkMode = ref(false);
+const showLanguageDropdown = ref(false);
+const showUserDropdown = ref(false);
+const notificationCount = ref(3);
+const cartCount = ref(2);
 
 // User data
-const userData = computed(() => userStore.data)
+const userData = computed(() => userStore.data);
 
 // Language options
 const languages = ref([
-  { code: 'en', name: 'English', flag: '🇺🇸' },
-  { code: 'ar', name: 'العربية', flag: '🇸🇦' },
+  { code: "en", name: "English", flag: "🇺🇸" },
+  { code: "ar", name: "العربية", flag: "🇸🇦" },
+]);
 
-])
-
-const currentLanguage = ref(languages.value[0])
+const currentLanguage = ref(languages.value[0]);
 
 // Dark mode functions
 const toggleDarkMode = () => {
-  isDarkMode.value = !isDarkMode.value
-  document.documentElement.classList.toggle('dark', isDarkMode.value)
-  localStorage.setItem('darkMode', isDarkMode.value.toString())
-}
+  isDarkMode.value = !isDarkMode.value;
+  document.documentElement.classList.toggle("dark-mode");
+  localStorage.setItem("darkMode", isDarkMode.value.toString());
+};
 
 // Language functions
 const toggleLanguageDropdown = () => {
-  showLanguageDropdown.value = !showLanguageDropdown.value
-  showUserDropdown.value = false
-}
+  showLanguageDropdown.value = !showLanguageDropdown.value;
+  showUserDropdown.value = false;
+};
 
 const changeLanguage = (langCode: string) => {
-  const selectedLang = languages.value.find(lang => lang.code === langCode)
+  const selectedLang = languages.value.find((lang) => lang.code === langCode);
   if (selectedLang) {
-    currentLanguage.value = selectedLang
-    localStorage.setItem('language', langCode)
+    currentLanguage.value = selectedLang;
+    localStorage.setItem("language", langCode);
     // Here you would typically implement i18n logic
-    console.log('Language changed to:', selectedLang.name)
+    console.log("Language changed to:", selectedLang.name);
   }
-  showLanguageDropdown.value = false
-}
+  showLanguageDropdown.value = false;
+};
 
 // User dropdown functions
 const toggleUserDropdown = () => {
-  showUserDropdown.value = !showUserDropdown.value
-  showLanguageDropdown.value = false
-}
+  showUserDropdown.value = !showUserDropdown.value;
+  showLanguageDropdown.value = false;
+};
 
 const goToProfile = () => {
-  router.push('/profile')
-  showUserDropdown.value = false
-}
+  router.push("/profile");
+  showUserDropdown.value = false;
+};
 
 const goToSettings = () => {
-  router.push('/settings')
-  showUserDropdown.value = false
-}
+  router.push("/settings");
+  showUserDropdown.value = false;
+};
 
 const handleLogout = () => {
-  localStorage.clear()
-  window.location.reload()
-}
+  localStorage.clear();
+  window.location.reload();
+};
 
 // Close dropdowns when clicking outside
 const handleClickOutside = (event: Event) => {
-  const target = event.target as HTMLElement
-  if (!target.closest('.relative')) {
-    showLanguageDropdown.value = false
-    showUserDropdown.value = false
+  const target = event.target as HTMLElement;
+  if (!target.closest(".relative")) {
+    showLanguageDropdown.value = false;
+    showUserDropdown.value = false;
   }
-}
+};
 
 // Initialize dark mode and language from localStorage
 onMounted(() => {
   // Initialize dark mode
-  const savedDarkMode = localStorage.getItem('darkMode')
-  if (savedDarkMode === 'true') {
-    isDarkMode.value = true
-    document.documentElement.classList.add('dark')
+  const savedDarkMode = localStorage.getItem("darkMode");
+  if (savedDarkMode === "true") {
+    isDarkMode.value = true;
+    document.documentElement.classList.add("dark");
   }
 
   // Initialize language
-  const savedLanguage = localStorage.getItem('language')
+  const savedLanguage = localStorage.getItem("language");
   if (savedLanguage) {
-    const lang = languages.value.find(l => l.code === savedLanguage)
+    const lang = languages.value.find((l) => l.code === savedLanguage);
     if (lang) {
-      currentLanguage.value = lang
+      currentLanguage.value = lang;
     }
   }
 
   // Add click outside listener
-  document.addEventListener('click', handleClickOutside)
-})
+  document.addEventListener("click", handleClickOutside);
+});
 
 onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
+  document.removeEventListener("click", handleClickOutside);
+});
 </script>
-
