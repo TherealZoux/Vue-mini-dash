@@ -1,25 +1,27 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import Toast from "primevue/toast"
-import { computed, onMounted, ref } from 'vue'
-import router from './router'
-import { useAuthStore } from './stores/AuthStore'
-import Spinner from './components/Spinner.vue'
+import { RouterLink, RouterView } from "vue-router";
+import Toast from "primevue/toast";
+import { computed, onMounted, ref } from "vue";
+import { useAuthStore } from "./stores/AuthStore";
+import { useRouter } from "vue-router";
+import { useRoute } from "vue-router";
+import Spinner from "./components/Spinner.vue";
+import Navbar from "./components/Navbar.vue";
 
-const authStore = useAuthStore()
-const token = ref()
-const sidebar = computed(()=> authStore.sidebar)
-const loading = ref(true)
-onMounted(async ()=>{
-  const res = await authStore.checkAuth()
-  if(!res){
-    router.push('/login')
+const authStore = useAuthStore();
+const sidebar = computed(() => authStore.sidebar);
+const loading = ref(true);
+const router = useRouter();
+const route = useRoute();
+onMounted(async () => {
+  const res = await authStore.checkAuth();
+  if (!res) {
+    router.push("/login");
   }
-  setTimeout(()=> {
-    loading.value = authStore.loading
-  },1000)
-  
-})
+  setTimeout(() => {
+    loading.value = authStore.loading;
+  }, 1000);
+});
 </script>
 
 <template>
@@ -27,11 +29,19 @@ onMounted(async ()=>{
     <Spinner />
   </div>
 
-  <main class="flex overflow-hidden h-[100vh]" v-else>
+  <div v-else class="h-[100vh] flex flex-col overflow-hidden">
     <Toast />
-    <Sidebar v-if="sidebar"/>
-    <RouterView />
-  </main>
+    <!-- Navbar - only show when not on login page -->
+
+    <!-- Main content area -->
+    <main class="flex flex-1 overflow-hidden">
+      <Sidebar v-if="sidebar && route.name !== 'Login'" />
+      <main class="w-full flex flex-col overflow-y-auto">
+        <Navbar v-if="route.name !== 'Login'" class="h-fit" />
+        <RouterView />
+      </main>
+    </main>
+  </div>
 </template>
 
 <style scoped>
@@ -49,7 +59,6 @@ nav {
   width: 100%;
   font-size: 12px;
   text-align: center;
-  margin-top: 2rem;
 }
 
 nav a.router-link-exact-active {
@@ -93,7 +102,6 @@ nav a:first-of-type {
     font-size: 1rem;
 
     padding: 1rem 0;
-    margin-top: 1rem;
   }
 }
 </style>

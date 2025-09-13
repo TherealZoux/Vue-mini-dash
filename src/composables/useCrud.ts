@@ -1,15 +1,21 @@
 import { ref } from 'vue'
 import axios from 'axios'
 
+type ApiResponse<T = any> = {
+  data: T
+  status: number
+  statusText: string
+}
+
 const BASE_URL = 'https://dummyjson.com'
 const token = localStorage.getItem('accessToken')
 
-export function useCrud(endpoint) {
-  const items = ref([])
+export function useCrud(endpoint: string) {
+  const data = ref<any>()
   const loading = ref(false)
-  const error = ref(null)
+  const error = ref<unknown>(null)
 
-  const list = async (params = {}) => {
+  const list = async (params: Record<string, any> = {}): Promise<ApiResponse | undefined> => {
     loading.value = true
     try {
       const res = await axios.get(`${BASE_URL}${endpoint}`, {
@@ -18,77 +24,78 @@ export function useCrud(endpoint) {
           Authorization: `Bearer ${token}`
         }
       })
-      items.value = res.data
+      data.value = res
       return res
     } catch (err) {
       error.value = err
+      return undefined
     } finally {
       loading.value = false
     }
   }
 
-  const get = async (id, params = {}) => {
+  const get = async (id: string | number, params: Record<string, any> = {}): Promise<any | undefined> => {
     try {
       const res = await axios.get(`${BASE_URL}${endpoint}/${id}`, {
         params: { ...params },
         headers: {
           Authorization: `Bearer ${token}`
         }
-
       })
+      data.value = res.data
       return res.data
-      
     } catch (err) {
       error.value = err
+      return undefined
     }
   }
 
-  const create = async (data, params = {}) => {
+  const create = async (payload: any, params: Record<string, any> = {}): Promise<any | undefined> => {
     try {
-      const res = await axios.post(`${BASE_URL}${endpoint}`, data, {
+      const res = await axios.post(`${BASE_URL}${endpoint}`, payload, {
         params: { ...params },
         headers: {
           Authorization: `Bearer ${token}`
         }
-
       })
-      items.value.push(res.data)
+      data.value = res.data
       return res.data
     } catch (err) {
       error.value = err
+      return undefined
     }
   }
 
-  const update = async (id, data, params={}) => {
+  const update = async (id: string | number, payload: any, params: Record<string, any> = {}): Promise<any | undefined> => {
     try {
-      const res = await axios.put(`${BASE_URL}${endpoint}/${id}`, data, {
+      const res = await axios.put(`${BASE_URL}${endpoint}/${id}`, payload, {
         params: { ...params },
         headers: {
           Authorization: `Bearer ${token}`
         }
-
       })
-      const index = items.value.findIndex(i => i.id === id)
-      if (index !== -1) items.value[index] = res.data
+      data.value = res.data
       return res.data
     } catch (err) {
       error.value = err
+      return undefined
     }
   }
 
-  const remove = async (id) => {
+  const remove = async (id: string | number): Promise<boolean> => {
     try {
-      await axios.delete(`${BASE_URL}${endpoint}/${id}`, {
+      const res = await axios.delete(`${BASE_URL}${endpoint}/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
-
       })
-      items.value = items.value.filter(i => i.id !== id)
+      data.value = res.data
+      return true
     } catch (err) {
       error.value = err
+      return false
     }
   }
 
-  return { items, loading, error, list, get, create, update, remove }
+  return { data, loading, error, list, get, create, update, remove }
 }

@@ -109,10 +109,8 @@ import AppForm from "@/components/AppForm.vue";
 import { Field } from "vee-validate";
 import { LoginSchema } from "@/schema/LoginSchema";
 import { useAuthStore } from "@/stores/AuthStore";
-import { useRouter } from "vue-router";
 
 const AuthStore = useAuthStore();
-const router = useRouter()
 const loading = ref(false)
 const initialValues = ref({
   username: "",
@@ -124,7 +122,7 @@ const handleLogin = async (values) => {
     loading.value= true
     const res =  await AuthStore.handleLogin(values);
     if(res.status === 200){
-      router.push('/')
+      window.location.reload()
     }
   } catch (err) {
     console.log(err); 

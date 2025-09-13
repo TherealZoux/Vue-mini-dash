@@ -1,8 +1,9 @@
 <template>
-  <div class="flex justify-center rounded-none ">
-    <Menu :model="items" class="w-full md:w-60 flex flex-col">
-      <template #start>
-        <span class="inline-flex items-center gap-1 px-2 py-2 rounded-none">
+  <div class="flex justify-center rounded-none">
+    <div class="w-full md:w-64 flex flex-col h-full bg-white shadow-lg">
+      <!-- Header -->
+      <div class="p-4 border-b border-gray-200">
+        <div class="inline-flex items-center gap-2">
           <svg
             width="35"
             height="40"
@@ -20,60 +21,198 @@
               fill="var(--p-text-color)"
             />
           </svg>
-          <span class="text-xl font-semibold"
-            >PRIME<span class="text-primary">APP</span></span
-          >
-        </span>
+          <span class="text-xl font-semibold text-gray-800">
+            PRIME<span class="text-blue-600">APP</span>
+          </span>
+        </div>
+      </div>
 
-          <hr class="my-2 w-full text-gray-200"/>
-      </template>
-      <template #submenulabel="{ item }">
-        <span :class="item.icon"></span>
-        <span class="text-primary font-bold">{{ item.label }}</span>
-      </template>
-      <template #item="{ item, props }">
-        <a v-ripple class="flex items-center" v-bind="props.action" >
-          <span :class="item.icon" />
-          <span>{{ item.label }}</span>
-          <Badge v-if="item.badge" class="ml-auto" :value="item.badge" />
-          <span
-            v-if="item.shortcut"
-            class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1"
-            >{{ item.shortcut }}</span
-          >
-        </a>
-      </template>
-      <template #end>
-        <Button label="Log out" class="w-full !bg-[#fff] !border-[#ff666b] hover:!bg-[#ff666b] !text-red-400 hover:!text-white" @click="handleLogout" />
-    </template>
+      <!-- Navigation Menu -->
+      <div class="flex-1 overflow-y-auto py-4">
+        <!-- Dashboard Section -->
+        <div class="mb-6">
+          <div class="px-4 mb-3">
+            <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Dashboard</h3>
+          </div>
+          <nav class="space-y-1">
+            <a
+              v-for="item in dashboardItems"
+              :key="item.label"
+              @click="item.action"
+              class="group flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-700 cursor-pointer transition-colors duration-150"
+            >
+              <i :class="item.icon" class="mr-3 h-5 w-5 text-gray-400 group-hover:text-blue-500"></i>
+              {{ item.label }}
+            </a>
+          </nav>
+        </div>
 
-    </Menu>
+        <!-- E-commerce Section -->
+        <div class="mb-6">
+          <div class="px-4 mb-3">
+            <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">E-commerce</h3>
+          </div>
+          <nav class="space-y-1">
+            <a
+              v-for="item in ecommerceItems"
+              :key="item.label"
+              @click="item.action"
+              class="group flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-700 cursor-pointer transition-colors duration-150"
+            >
+              <i :class="item.icon" class="mr-3 h-5 w-5 text-gray-400 group-hover:text-blue-500"></i>
+              {{ item.label }}
+              <Badge v-if="item.badge" class="ml-auto" :value="item.badge" severity="info" />
+            </a>
+          </nav>
+        </div>
+
+        <!-- Content Management Section -->
+        <div class="mb-6">
+          <div class="px-4 mb-3">
+            <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Content</h3>
+          </div>
+          <nav class="space-y-1">
+            <a
+              v-for="item in contentItems"
+              :key="item.label"
+              @click="item.action"
+              class="group flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-700 cursor-pointer transition-colors duration-150"
+            >
+              <i :class="item.icon" class="mr-3 h-5 w-5 text-gray-400 group-hover:text-blue-500"></i>
+              {{ item.label }}
+            </a>
+          </nav>
+        </div>
+
+        <!-- User Management Section -->
+        <div class="mb-6">
+          <div class="px-4 mb-3">
+            <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Management</h3>
+          </div>
+          <nav class="space-y-1">
+            <a
+              v-for="item in managementItems"
+              :key="item.label"
+              @click="item.action"
+              class="group flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-700 cursor-pointer transition-colors duration-150"
+            >
+              <i :class="item.icon" class="mr-3 h-5 w-5 text-gray-400 group-hover:text-blue-500"></i>
+              {{ item.label }}
+            </a>
+          </nav>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="p-4 border-t border-gray-200">
+        <Button 
+          label="Log out" 
+          icon="pi pi-sign-out" 
+          class="w-full !bg-red-50 !border-red-200 hover:!bg-red-100 !text-red-600 hover:!text-red-700 !border-solid" 
+          @click="handleLogout" 
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import Menu from 'primevue/menu';
-import Button from "primevue/button"
+import Button from "primevue/button";
+import Badge from "primevue/badge";
 import router from "@/router";
 
-const items = ref([{
-  label: 'Login',
-  icon: 'pi pi-palette',
-  action: ()=> {console.log("hello")}
-  
-}
-  
-]);
-  const handleLogout = ()=>{
-    localStorage.clear()
-    window.location.reload()
+// Dashboard items
+const dashboardItems = ref([
+  {
+    label: 'Home',
+    icon: 'pi pi-home',
+    action: () => router.push('/')
+  },
+  {
+    label: 'Profile',
+    icon: 'pi pi-user',
+    action: () => router.push('/profile')
   }
+]);
+
+// E-commerce items
+const ecommerceItems = ref([
+  {
+    label: 'Products',
+    icon: 'pi pi-box',
+    action: () => router.push('/products')
+  },
+  {
+    label: 'Carts',
+    icon: 'pi pi-shopping-cart',
+    action: () => router.push('/carts'),
+    badge: '3' // Example badge for cart items
+  }
+]);
+
+// Content management items
+const contentItems = ref([
+  {
+    label: 'Posts',
+    icon: 'pi pi-pencil',
+    action: () => router.push('/posts')
+  },
+  {
+    label: 'Recipes',
+    icon: 'pi pi-book',
+    action: () => router.push('/recipes')
+  }
+]);
+
+// Management items
+const managementItems = ref([
+  {
+    label: 'Users',
+    icon: 'pi pi-users',
+    action: () => router.push('/users')
+  }
+]);
+
+const handleLogout = () => {
+  localStorage.clear();
+  window.location.reload();
+};
 
 </script>
 
-<style>
-.p-menu-end {
-  margin-top: auto;
+<style scoped>
+/* Custom scrollbar for the navigation area */
+.overflow-y-auto::-webkit-scrollbar {
+  width: 4px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 2px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Smooth transitions for hover effects */
+.group {
+  transition: all 0.15s ease-in-out;
+}
+
+/* Active state styling */
+.group:active {
+  transform: translateX(2px);
+}
+
+/* Focus states for accessibility */
+.group:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: -2px;
 }
 </style>
