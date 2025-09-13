@@ -1,41 +1,66 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import Login from '../views/Login.vue'
-import { useUserStore } from '@/stores/UserStore'
+import { createRouter, createWebHistory } from "vue-router";
+import { useUserStore } from "@/stores/UserStore";
+import { useAuthStore } from "@/stores/AuthStore";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      name: 'Home',
-      component: HomeView,
+      path: "/",
+      name: "Home",
+      component: () => import("../views/HomeView.vue"),
     },
     {
-      path: '/login',
-      name: 'Login',
-      component: Login,
+      path: "/login",
+      name: "Login",
+      component: () => import("../views/Login.vue"),
+    },
+    {
+      path: "/products",
+      name: "Products",
+      component: () => import("../views/products.vue"),
+    },
+    {
+      path: "/carts",
+      name: "Carts",
+      component: () => import("../views/carts.vue"),
+    },
+    {
+      path: "/posts",
+      name: "Posts",
+      component: () => import("../views/posts.vue"),
+    },
+    {
+      path: "/recipes",
+      name: "Recipes",
+      component: () => import("../views/recipes.vue"),
+    },
+    {
+      path: "/users",
+      name: "Users",
+      component: () => import("../views/users.vue"),
+    },
+    {
+      path: "/profile",
+      name: "Profile",
+      component: () => import("../views/profile.vue"),
     },
   ],
-})
-router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem('accessToken')
-
-  if (to.meta.requiresAuth && !token) {
-    // needs auth but no token → go to login
-    if (to.path !== '/login') {
-      next('/login')
-    } else {
-      next()
-    }
-  } else if (to.path === '/login' && token) {
-    // already logged in but trying to access login → stop or redirect
-    next('/') // 👈 redirect to home (or dashboard)
+});
+router.beforeEach(async(to, from, next) => {
+  const authStore = useAuthStore();
+  const isAuthenticated = await authStore.checkAuth();
+  const isLoginRoute = to.path === "/login";
+  
+  if (!isAuthenticated && !isLoginRoute) {
+    // Not authenticated and trying to access a protected route
+    next("/login");
+  } else if (isAuthenticated && isLoginRoute) {
+    // Authenticated user trying to access login page
+    next("/");
   } else {
-    next() // everything else is fine
+    next();
   }
-})
+});
 
-
-
-export default router
+export default router;
