@@ -8,10 +8,9 @@
         title="Profile"
         desc="View all your profile details here."
       />
-      <hr class="text-gray-300">
       
       <!-- Main Profile Content -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4">
         <!-- Left Column: User Profile Card -->
         <div class="space-y-6">
           <!-- User Profile Card -->
@@ -139,40 +138,7 @@
       </div>
 
       <!-- My Productions Section -->
-      <Card class="bg-gray-800 border-gray-700 !p-6">
-        <template #header>
-          <h3 class="text-xl font-bold ">My Productions</h3>
-        </template>
-        <template #content>
-          <div class="overflow-x-auto">
-            <table class="w-full">
-              <thead>
-                <tr class="border-b border-gray-700">
-                  <th class="text-left text-gray-400 py-3 px-4">Title</th>
-                  <th class="text-left text-gray-400 py-3 px-4">Timing</th>
-                  <th class="text-left text-gray-400 py-3 px-4">No. of listenings</th>
-                  <th class="text-left text-gray-400 py-3 px-4">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="border-b border-gray-700">
-                  <td class="py-3 px-4 ">No productions yet</td>
-                  <td class="py-3 px-4 text-gray-400">-</td>
-                  <td class="py-3 px-4 text-gray-400">-</td>
-                  <td class="py-3 px-4">
-                    <Button 
-                      label="Add Production" 
-                      size="small" 
-                      severity="secondary"
-                      class="!bg-gray-600 !border-gray-600 hover:!bg-gray-700"
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </template>
-      </Card>
+      
     </div>
   </section>
 </template>

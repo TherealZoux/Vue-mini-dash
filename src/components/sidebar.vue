@@ -1,6 +1,6 @@
 <template>
-  <div class="flex justify-center rounded-none">
-    <div class="w-full md:w-64 flex flex-col h-full bg-white shadow-lg">
+  <div class="flex justify-center rounded-none border-r-1 border-gray-100">
+    <div class="w-full md:w-64 flex flex-col h-full shadow-lg transition-colors duration-300">
       <!-- Header -->
       <div class="p-4 border-b border-gray-200">
         <div class="inline-flex items-center gap-2">
@@ -29,77 +29,33 @@
 
       <!-- Navigation Menu -->
       <div class="flex-1 overflow-y-auto py-4">
-        <!-- Dashboard Section -->
-        <div class="mb-6">
-          <div class="px-4 mb-3">
-            <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Dashboard</h3>
+        <div v-for="section in menuItems" :key="section.label || 'separator'">
+          <!-- Section Separator -->
+          <div v-if="section.separator" class="border-t border-gray-200  my-4 mx-4"></div>
+          
+          <!-- Section with Items -->
+          <div v-else>
+            <!-- Section Header -->
+            <div class="px-4 mb-3">
+              <h3 class="text-xs font-semibold text-gray-500  uppercase tracking-wider">
+                {{ section.label }}
+              </h3>
+            </div>
+            
+            <!-- Section Items -->
+            <div class="space-y-1">
+              <a
+                v-for="item in section.items"
+                :key="item.label"
+                @click="item.command"
+                class="group flex items-center px-4 py-2 text-sm font-medium    hover:text-blue-700 dark:hover:text-blue-400 cursor-pointer transition-colors duration-150"
+              >
+                <i :class="item.icon" class="mr-3 h-5 w-5  group-hover:text-blue-500 dark:group-hover:text-blue-400"></i>
+                <span>{{ item.label }}</span>
+                <Badge v-if="item.badge" class="ml-auto" :value="item.badge" severity="info" />
+              </a>
+            </div>
           </div>
-          <nav class="space-y-1">
-            <a
-              v-for="item in dashboardItems"
-              :key="item.label"
-              @click="item.action"
-              class="group flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-700 cursor-pointer transition-colors duration-150"
-            >
-              <i :class="item.icon" class="mr-3 h-5 w-5 text-gray-400 group-hover:text-blue-500"></i>
-              {{ item.label }}
-            </a>
-          </nav>
-        </div>
-
-        <!-- E-commerce Section -->
-        <div class="mb-6">
-          <div class="px-4 mb-3">
-            <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">E-commerce</h3>
-          </div>
-          <nav class="space-y-1">
-            <a
-              v-for="item in ecommerceItems"
-              :key="item.label"
-              @click="item.action"
-              class="group flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-700 cursor-pointer transition-colors duration-150"
-            >
-              <i :class="item.icon" class="mr-3 h-5 w-5 text-gray-400 group-hover:text-blue-500"></i>
-              {{ item.label }}
-              <Badge v-if="item.badge" class="ml-auto" :value="item.badge" severity="info" />
-            </a>
-          </nav>
-        </div>
-
-        <!-- Content Management Section -->
-        <div class="mb-6">
-          <div class="px-4 mb-3">
-            <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Content</h3>
-          </div>
-          <nav class="space-y-1">
-            <a
-              v-for="item in contentItems"
-              :key="item.label"
-              @click="item.action"
-              class="group flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-700 cursor-pointer transition-colors duration-150"
-            >
-              <i :class="item.icon" class="mr-3 h-5 w-5 text-gray-400 group-hover:text-blue-500"></i>
-              {{ item.label }}
-            </a>
-          </nav>
-        </div>
-
-        <!-- User Management Section -->
-        <div class="mb-6">
-          <div class="px-4 mb-3">
-            <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Management</h3>
-          </div>
-          <nav class="space-y-1">
-            <a
-              v-for="item in managementItems"
-              :key="item.label"
-              @click="item.action"
-              class="group flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-700 cursor-pointer transition-colors duration-150"
-            >
-              <i :class="item.icon" class="mr-3 h-5 w-5 text-gray-400 group-hover:text-blue-500"></i>
-              {{ item.label }}
-            </a>
-          </nav>
         </div>
       </div>
 
@@ -108,7 +64,8 @@
         <Button 
           label="Log out" 
           icon="pi pi-sign-out" 
-          class="w-full !bg-red-50 !border-red-200 hover:!bg-red-100 !text-red-600 hover:!text-red-700 !border-solid" 
+          severity="secondary"
+          class="w-full  !border-red-200  !text-red-500 hover:!text-red-700 !border-solid" 
           @click="handleLogout" 
         />
       </div>
@@ -122,55 +79,76 @@ import Button from "primevue/button";
 import Badge from "primevue/badge";
 import router from "@/router";
 
-// Dashboard items
-const dashboardItems = ref([
+// Menu items structure for PrimeVue Menu component
+const menuItems = ref([
+  // Dashboard Section
   {
-    label: 'Home',
-    icon: 'pi pi-home',
-    action: () => router.push('/')
+    label: 'Dashboard',
+    items: [
+      {
+        label: 'Home',
+        icon: 'pi pi-home',
+        command: () => router.push('/')
+      },
+      {
+        label: 'Profile',
+        icon: 'pi pi-user',
+        command: () => router.push('/profile')
+      }
+    ]
   },
   {
-    label: 'Profile',
-    icon: 'pi pi-user',
-    action: () => router.push('/profile')
-  }
-]);
-
-// E-commerce items
-const ecommerceItems = ref([
+    separator: true
+  },
+  // E-commerce Section
   {
-    label: 'Products',
-    icon: 'pi pi-box',
-    action: () => router.push('/products')
+    label: 'E-commerce',
+    items: [
+      {
+        label: 'Products',
+        icon: 'pi pi-box',
+        command: () => router.push('/products')
+      },
+      {
+        label: 'Carts',
+        icon: 'pi pi-shopping-cart',
+        command: () => router.push('/carts'),
+        badge: '3'
+      }
+    ]
   },
   {
-    label: 'Carts',
-    icon: 'pi pi-shopping-cart',
-    action: () => router.push('/carts'),
-    badge: '3' // Example badge for cart items
-  }
-]);
-
-// Content management items
-const contentItems = ref([
+    separator: true
+  },
+  // Content Management Section
   {
-    label: 'Posts',
-    icon: 'pi pi-pencil',
-    action: () => router.push('/posts')
+    label: 'Content',
+    items: [
+      {
+        label: 'Posts',
+        icon: 'pi pi-pencil',
+        command: () => router.push('/posts')
+      },
+      {
+        label: 'Recipes',
+        icon: 'pi pi-book',
+        command: () => router.push('/recipes')
+      }
+    ]
   },
   {
-    label: 'Recipes',
-    icon: 'pi pi-book',
-    action: () => router.push('/recipes')
-  }
-]);
-
-// Management items
-const managementItems = ref([
+    separator: true
+  },
+  // Management Section
   {
-    label: 'Users',
-    icon: 'pi pi-users',
-    action: () => router.push('/users')
+    label: 'Management',
+    items: [
+      {
+        label: 'Users',
+        icon: 'pi pi-users',
+        command: () => router.push('/users')
+      }
+    ]
   }
 ]);
 
