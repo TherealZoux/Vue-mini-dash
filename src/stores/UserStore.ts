@@ -3,6 +3,7 @@ import { useCrud } from "@/composables/useCrud";
 import { ref } from "vue";
 export const useUserStore = defineStore("users", () => {
   const data = ref()
+  const currenstUser =ref()
   const error = ref()
   const loading = ref(false)
 
@@ -17,7 +18,8 @@ export const useUserStore = defineStore("users", () => {
   };
   const getAllUsers = async ()=>{
     try {
-       await useCrud('/users').list()
+       const res = await useCrud('/users').list()
+      data.value = res?.data
       return data
     } catch (error) {
       console.log(error);
@@ -26,16 +28,17 @@ export const useUserStore = defineStore("users", () => {
   }
   const getUserById = async (id: number)=>{
     try {
-       await useCrud('/users').get(id)
-      data
+      const res = await useCrud('/users').get(id)
+      currenstUser.value = res?.data
+      return res
     } catch (error) {
       console.log(error);
-      
     }
   }
 
   return {
     data,
+    currenstUser,
     loading,
     error,
     getCurrentUser,
