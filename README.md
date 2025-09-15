@@ -31,7 +31,10 @@ Mini dashboard مبني باستخدام **Vue 3 + Vite + TypeScript**  بهدف
 # System design
 
 <img width="3833" height="3985" alt="image" src="https://github.com/user-attachments/assets/f9eefda9-09dd-4944-9d39-dae8d48ce775" />
+
 [View]{https://app.eraser.io/workspace/ZaRVw1rPPvdxW0UMAI97?origin=share}
+
+
 -------
 
 ## 📂 Project Structure  
