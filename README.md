@@ -83,13 +83,23 @@ src/
 
 ---------
 # Tech Stack
-Vue 3
-Vite
-TypeScript
-Pinia
-Vue router
-I18n
-Axios
+## 🛠️ Tech Stack  
+
+![Vue.js](https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D)  
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)  
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)  
+![Pinia](https://img.shields.io/badge/Pinia-F7DF1E?style=for-the-badge&logo=pinia&logoColor=white)  
+![Vue Router](https://img.shields.io/badge/Vue%20Router-CA4245?style=for-the-badge&logo=vue.js&logoColor=white)  
+![i18n](https://img.shields.io/badge/i18n-000000?style=for-the-badge&logo=googletranslate&logoColor=white)  
+![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white)  
+![DummyJSON](https://img.shields.io/badge/DummyJSON-000000?style=for-the-badge&logo=json&logoColor=white)  
+![PrimeVue](https://img.shields.io/badge/PrimeVue-3E83F8?style=for-the-badge&logo=prime&logoColor=white)  
+![PrimeIcons](https://img.shields.io/badge/PrimeIcons-000000?style=for-the-badge&logo=materialdesignicons&logoColor=white)  
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)  
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)  
+![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=for-the-badge&logo=chartdotjs&logoColor=white)  
+![VeeValidate](https://img.shields.io/badge/Vee--Validate-42b883?style=for-the-badge&logo=veevalidate&logoColor=white)  
+![Yup](https://img.shields.io/badge/Yup-000000?style=for-the-badge&logo=json&logoColor=white)  
 
 
 
