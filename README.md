@@ -91,8 +91,11 @@ src/
 ![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=for-the-badge&logo=chartdotjs&logoColor=white)  ![VeeValidate](https://img.shields.io/badge/Vee--Validate-42b883?style=for-the-badge&logo=veevalidate&logoColor=white)  
 ![Yup](https://img.shields.io/badge/Yup-000000?style=for-the-badge&logo=json&logoColor=white)  
 
+-------
 
+# Contributing
 
+Pull requests مرحب بيها جدًا! لو عندك فكرة/تحسين، اعمل fork و PR.
 
 
 
