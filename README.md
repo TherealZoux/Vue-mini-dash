@@ -95,7 +95,7 @@ src/
 
 # Contributing
 
-مرحب بيها جدًا! لو عندك فكرة/تحسين، اعمل Pull requests , fork و PR
+مرحب بيها جدًا! لو عندك فكرة/تحسين، اعمل Pull requests , fork او PR
 
 
 
