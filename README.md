@@ -83,7 +83,6 @@ src/
 
 ---------
 # Tech Stack
-## 🛠️ Tech Stack  
 
 ![Vue.js](https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D)  ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)  ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)  ![Pinia](https://img.shields.io/badge/Pinia-F7DF1E?style=for-the-badge&logo=pinia&logoColor=white)  ![Vue Router](https://img.shields.io/badge/Vue%20Router-CA4245?style=for-the-badge&logo=vue.js&logoColor=white)  ![i18n](https://img.shields.io/badge/i18n-000000?style=for-the-badge&logo=googletranslate&logoColor=white)  
 ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white)  ![DummyJSON](https://img.shields.io/badge/DummyJSON-000000?style=for-the-badge&logo=json&logoColor=white)  
