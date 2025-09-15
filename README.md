@@ -1,7 +1,8 @@
 #  Vue Mini Dashboard  
 
-Mini dashboard مبني باستخدام **Vue 3 + Vite + TypeScript**  بهدف التدريب على بناء نظم معقدة وقابلة للتوسع (CRUD operations, state management, authentication, i18n, ).  
 
+Mini dashboard مبني باستخدام **Vue 3 + Vite + TypeScript** بهدف التدريب على بناء نظم معقدة وقابلة للتوسع (CRUD operations, state management, authentication, i18n).  
+المشروع حاليًا بيستخدم [dummyjson API](https://dummyjson.com) كمصدر بيانات تجريبي.  
 ---
 
 ##  Features  
