@@ -1,33 +1,88 @@
-# my-app
+#  Vue Mini Dashboard  
 
-This template should help get you started developing with Vue 3 in Vite.
+Mini dashboard مبني باستخدام **Vue 3 + Vite + TypeScript**  بهدف التدريب على بناء نظم معقدة وقابلة للتوسع (CRUD operations, state management, authentication, i18n, ).  
 
-## Recommended IDE Setup
+---
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+##  Features  
 
-## Type Support for `.vue` Imports in TS
+- **Authentication**: Login/Logout + Router Guards  
+- **Dashboard Navigation**: Sidebar + Overview Page  
+- **Entities with CRUD operations**:
+  - Users (Create, Read, Update, Delete)  
+  - Recipes (CRUD)  
+  - Products (CRUD)  
+  - Carts (List, Details, Manage)  
+  - Posts & Comments (Nested CRUD)  
+  - Todos (CRUD + Mark Done/Pending)  
+  - Quotes (CRUD)  
+- **User Profile**: View/Edit personal info  
+- **i18n**: دعم تعدد اللغات (locales)  
+- **Scalable Architecture**:  
+  - `components/` → Reusable UI components  
+  - `views/` → Pages  
+  - `stores/` → State management (Pinia)  
+  - `router/` → Routes + Guards  
+  - `composables/` → Reusable logic hooks  
+  - `plugins/` → Project-wide plugins (axios, i18n…)  
+  - `schema/` → Validation schemas  
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+---
+# System design
 
-## Customize configuration
+<img width="3833" height="3985" alt="image" src="https://github.com/user-attachments/assets/f9eefda9-09dd-4944-9d39-dae8d48ce775" />
+[View]{https://app.eraser.io/workspace/ZaRVw1rPPvdxW0UMAI97?origin=share}
+-------
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+## 📂 Project Structure  
 
-## Project Setup
-
-```sh
-npm install
+```bash
+src/
+  assets/        # Static assets
+  components/    # Reusable UI components
+  composables/   # Custom Vue composition hooks
+  locales/       # i18n translations
+  plugins/       # Global plugins (axios, i18n…)
+  router/        # App routes + navigation guards
+  schema/        # Validation schemas
+  stores/        # Pinia stores (state management)
+  views/         # Pages (Dashboard, Login, Overview…)
+  App.vue        # Root component
+  main.ts        # App entry point
 ```
+-----------
+#  Installation  
 
-### Compile and Hot-Reload for Development
+### Clone the repository
+```git clone https://github.com/TherealZoux/Vue-mini-dash.git```
 
-```sh
-npm run dev
-```
+```cd Vue-mini-dash```
 
-### Type-Check, Compile and Minify for Production
+# Install dependencies
+```npm install```
 
-```sh
-npm run build
-```
+# Run the project
+```npm run dev```
+
+# Build for production
+```npm run build```
+
+---------
+# Tech Stack
+Vue 3
+Vite
+TypeScript
+Pinia
+Vue router
+I18n
+Axios
+
+
+
+
+
+
+
+
+
+
