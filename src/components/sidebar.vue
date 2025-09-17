@@ -31,7 +31,7 @@
       <div class="flex-1 overflow-y-auto py-4">
         <div v-for="section in menuItems" :key="section.label || 'separator'">
           <!-- Section Separator -->
-          <div v-if="section.separator" class="border-t border-gray-200  my-4 mx-4"></div>
+          <div v-if="section.separator" class="border-t border-gray-200  my-4 "></div>
           
           <!-- Section with Items -->
           <div v-else>
@@ -48,9 +48,15 @@
                 v-for="item in section.items"
                 :key="item.label"
                 @click="item.command"
-                class="group flex items-center px-4 py-2 text-sm font-medium    hover:text-blue-700 dark:hover:text-blue-400 cursor-pointer transition-colors duration-150"
+                :aria-current="isActive(item.to) ? 'page' : null"
+                :class="[
+                  'group flex items-center px-4 py-2 text-sm font-medium cursor-pointer transition-colors duration-150 rounded-md',
+                  isActive(item.to)
+                    ? 'text-blue-700 bg-blue-50'
+                    : 'hover:text-blue-700 dark:hover:text-blue-400'
+                ]"
               >
-                <i :class="item.icon" class="mr-3 h-5 w-5  group-hover:text-blue-500 dark:group-hover:text-blue-400"></i>
+                <i :class="[item.icon, 'mr-3 h-5 w-5', isActive(item.to) ? 'text-blue-600' : 'group-hover:text-blue-500 dark:group-hover:text-blue-400']"></i>
                 <span>{{ item.label }}</span>
                 <Badge v-if="item.badge" class="ml-auto" :value="item.badge" severity="info" />
               </a>
@@ -75,6 +81,7 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRoute } from "vue-router";
 import Button from "primevue/button";
 import Badge from "primevue/badge";
 import router from "@/router";
@@ -88,11 +95,13 @@ const menuItems = ref([
       {
         label: 'Home',
         icon: 'pi pi-home',
+        to: '/',
         command: () => router.push('/')
       },
       {
         label: 'Profile',
         icon: 'pi pi-user',
+        to: '/profile',
         command: () => router.push('/profile')
       }
     ]
@@ -107,11 +116,13 @@ const menuItems = ref([
       {
         label: 'Products',
         icon: 'pi pi-box',
+        to: '/products',
         command: () => router.push('/products')
       },
       {
         label: 'Carts',
         icon: 'pi pi-shopping-cart',
+        to: '/carts',
         command: () => router.push('/carts'),
         badge: '3'
       }
@@ -127,11 +138,13 @@ const menuItems = ref([
       {
         label: 'Posts',
         icon: 'pi pi-pencil',
+        to: '/posts',
         command: () => router.push('/posts')
       },
       {
         label: 'Recipes',
         icon: 'pi pi-book',
+        to: '/recipes',
         command: () => router.push('/recipes')
       }
     ]
@@ -146,11 +159,15 @@ const menuItems = ref([
       {
         label: 'Users',
         icon: 'pi pi-users',
+        to: '/users',
         command: () => router.push('/users')
       }
     ]
   }
 ]);
+
+const route = useRoute();
+const isActive = (path) => route.path === path;
 
 const handleLogout = () => {
   localStorage.clear();

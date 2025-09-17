@@ -1,9 +1,9 @@
 <template>
   <Card class="h-full transition-all duration-200 hover:shadow-md hover:-translate-y-1" :pt="{
-      root: 'bg-white rounded-lg shadow-sm p-6'
-    }">
+      root: 'bg-white rounded-lg shadow-sm border-b-2'
+    }" :style="{'border-color': props.customColor}">
     <template #content>
-      <div class="flex justify-between items-start">
+      <div class="flex justify-between items-start ">
         <div class="flex-1">
           <h3 class="text-sm font-medium  uppercase tracking-wide mb-2">{{ title }}</h3>
           <div class="text-3xl font-bold  mb-1">{{ value }}</div>

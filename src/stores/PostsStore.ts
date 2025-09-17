@@ -12,7 +12,7 @@ export const usePostsStore = defineStore("postsStore", () => {
   const getAllPosts = async (limit?:any,skip?:any)=>{    
     try {
         const res = await useCrud('/posts').list({limit:limit, skip:skip})
-        posts.value = res?.data
+        posts.value = res
         return posts
     } catch (error) {
         console.log(error);
@@ -21,7 +21,7 @@ export const usePostsStore = defineStore("postsStore", () => {
   const getAllComments = async (limit?:any,skip?:any)=>{    
     try {
         const res = await useCrud('/comments').list({limit:limit, skip:skip})
-        comments.value = res?.data
+        comments.value = res
         return comments
     } catch (error) {
         console.log(error);
@@ -31,8 +31,17 @@ export const usePostsStore = defineStore("postsStore", () => {
   const getPostById = async (id: number)=>{
     try {
        const res = await useCrud('/posts').get(id)
-       currentPost.value = res.data
+       currentPost.value = res
       
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const getUserPosts = async (id: number)=>{
+    try {
+       const res = await useCrud('/posts/user').get(id)
+       posts.value = res
+
     } catch (error) {
       console.log(error);
     }
@@ -47,6 +56,8 @@ export const usePostsStore = defineStore("postsStore", () => {
     getAllPosts,
     getAllComments,
     getPostById,
+    getUserPosts,
+
   };
 });
 
