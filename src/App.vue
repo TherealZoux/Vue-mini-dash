@@ -36,7 +36,7 @@ onMounted(async () => {
     <!-- Main content area -->
     <main class="flex flex-1 overflow-hidden">
       <Sidebar v-if="sidebar && route.name !== 'Login'" />
-      <main class="w-full flex flex-col overflow-y-auto">
+      <main class="w-full flex flex-col overflow-y-auto bg-[#b2b2b20f]">
         <Navbar v-if="route.name !== 'Login'" class="h-fit" />
         <RouterView />
       </main>

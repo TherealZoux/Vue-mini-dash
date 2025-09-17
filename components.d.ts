@@ -8,11 +8,15 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AppCard: typeof import('./src/components/AppCard.vue')['default']
     AppForm: typeof import('./src/components/AppForm.vue')['default']
+    AppTable: typeof import('./src/components/AppTable.vue')['default']
     Avatar: typeof import('./src/components/Avatar.vue')['default']
     Carts: typeof import('./src/components/carts.vue')['default']
+    CRUDDialog: typeof import('./src/components/dialogs/CRUDDialog.vue')['default']
     KpiCard: typeof import('./src/components/KpiCard.vue')['default']
     Navbar: typeof import('./src/components/Navbar.vue')['default']
+    PolarAreaChart: typeof import('./src/components/PolarAreaChart.vue')['default']
     Posts: typeof import('./src/components/posts.vue')['default']
     Products: typeof import('./src/components/products.vue')['default']
     Profile: typeof import('./src/components/profile.vue')['default']

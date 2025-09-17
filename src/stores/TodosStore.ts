@@ -20,12 +20,24 @@ export const useTodosStore = defineStore("todosStore", () => {
   const getTodoById = async (id: number)=>{
     try {
        const res = await useCrud('/todos').get(id)
-       currentTodo.value = res.data
-      data
+       currentTodo.value = res.todos
+      return data
     } catch (error) {
       console.log(error);
     }
   }
+  const getUserTodos = async (id: number)=>{
+    try {
+       const res = await useCrud('/todos/user').get(id)
+       console.log(res);
+       data.value = res       
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+
 
   return {
     data,
@@ -34,6 +46,7 @@ export const useTodosStore = defineStore("todosStore", () => {
     error,
     getAlltodos,
     getTodoById,
+    getUserTodos,
   };
 });
 

@@ -20,7 +20,7 @@ app.use(PrimeVue, {
     },
   },
 });
-app.use(ToastService)
-app.use(i18n)
+app.use(ToastService);
+app.use(i18n);
 
 app.mount("#app");

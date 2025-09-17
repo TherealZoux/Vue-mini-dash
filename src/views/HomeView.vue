@@ -5,8 +5,12 @@ import { usePostsStore } from "@/stores/PostsStore";
 import { useTodosStore } from "@/stores/TodosStore";
 import { useCartsStore } from "@/stores/CartsStore";
 import { useUserStore } from "@/stores/UserStore";
-import { onMounted } from "vue";
+import { onMounted, computed } from "vue";
+import Card from "primevue/card";
+import { h } from "vue";
+
 import StateCard from "@/components/StateCard.vue";
+import AppTable from "@/components/AppTable.vue";
 
 const productStore = useProductsStore();
 const postsStore = usePostsStore();
@@ -15,14 +19,70 @@ const cartsStore = useCartsStore();
 const userStore = useUserStore();
 const { t, locale } = useI18n();
 
+const categories = computed(() => productStore?.categories);
+const counts = [15, 8, 12, 5, 10];
+const topProducts = computed(() =>
+  productStore?.data?.products?.filter((product: any) => product.rating > 4.5)
+);
+const topProductsColumns = [
+  { field: "title", header: "Title" },
+  { field: "thumbnail", header: "Image", template: (row: any) => {
+    return h('img', { src: row.thumbnail, class: 'w-1/2', alt: row.title || "thumbnail" });
+  }},
+  { field: "brand", header: "Brand" },
+  { field: "price", header: "Price", formatter: (val: number) => val + "$" },
+  { field: "discountPercentage", header: "Discount (%)", formatter: (val: number) => val ? val.toFixed(2) + "%" : "_" },
+  { field: "stock", header: "Stock" },
+  { field: "category", header: "Category" },
+  { field: "warrantyInformation", header: "Warranty" },
+  { field: "shippingInformation", header: "Shipping" },
+  {
+    field: "rating",
+    header: "Rating",
+    template: (row: any) => {
+      const stars = [];
+      const fullStars = Math.floor(row.rating);
+      const hasHalf = row.rating % 1 >= 0.5;
+      const maxStars = 5;
+
+      for (let i = 0; i < fullStars; i++) {
+        stars.push(h("i", { class: "pi pi-star-fill text-yellow-500 mr-1" }));
+      }
+
+      if (hasHalf) {
+        stars.push(
+          h("i", { class: "pi pi-star-half-fill text-yellow-500 mr-1" })
+        );
+      }
+
+      while (stars.length < maxStars) {
+        stars.push(h("i", { class: "pi pi-star text-yellow-500 mr-1 " }));
+      }
+
+      return h("div", { class: "flex items-center" }, [...stars, `(${row.rating})`]);
+    },
+  },
+  { field: "availabilityStatus", header: "Availability", template: (row: any) => {
+    let colorClass = '';
+    if (row.availabilityStatus === 'In Stock') {
+      colorClass = 'bg-green-100 rounded p-1 text-green-600';
+    } else if (row.availabilityStatus === 'Low Stock') {
+      colorClass = 'bg-yellow-100 rounded p-1 text-yellow-700';
+    } else {
+      colorClass = 'bg-red-300 rounded border-1';
+    }
+    return h('span', { class: colorClass }, row.availabilityStatus);
+  }},
+];
 onMounted(() => {
   Promise.all([
     productStore.getAllProducts(),
+    productStore.getProductsCategories(),
     postsStore.getAllPosts(),
     postsStore.getAllComments(),
     todosStore.getAlltodos(),
     cartsStore.getAllCarts(),
-    userStore.getAllUsers()
+    userStore.getAllUsers(),
   ]);
 });
 </script>
@@ -32,7 +92,9 @@ onMounted(() => {
     <!-- Overview Cards Section -->
     <section class="space-y-4">
       <h2 class="text-2xl font-bold text-gray-800 mb-6">Overview Cards</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4"
+      >
         <StateCard
           title="Users"
           :value="userStore?.data?.total || 100"
@@ -83,152 +145,31 @@ onMounted(() => {
         />
       </div>
     </section>
+    <!-- <section>
+      <Card>
+        <template #content>
+        <div class="rounded-lg shadow-sm p-6">
+          <h3 class="text-lg font-semibold mb-4">Products by Price</h3>
+          <div class="h-[25rem] flex items-center justify-center rounded-lg">
+            <PolarAreaChart
+              :labels="[]"
+              :values="counts"
+              title="Products by Category"
+            />
+          </div>
+        </div>
+        </template>
+      </Card>
+    </section> -->
 
-    <!-- Charts & Insights Section -->
     <section class="space-y-4">
-      <h2 class="text-2xl font-bold text-gray-800 mb-6">Charts & Insights</h2>
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Users Growth Chart -->
-        <div class="bg-white rounded-lg shadow-sm p-6 ">
-          <h3 class="text-lg font-semibold text-gray-700 mb-4">Users Growth</h3>
-          <div class="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
-            <div class="text-center">
-              <i class="pi pi-chart-line text-4xl text-gray-400 mb-2"></i>
-              <p class="text-gray-500">Line Chart Placeholder</p>
-              <p class="text-sm text-gray-400">Users growth over time</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Products by Price Chart -->
-        <div class="bg-white rounded-lg shadow-sm p-6 ">
-          <h3 class="text-lg font-semibold text-gray-700 mb-4">Products by Price</h3>
-          <div class="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
-            <div class="text-center">
-              <i class="pi pi-chart-bar text-4xl text-gray-400 mb-2"></i>
-              <p class="text-gray-500">Bar Chart Placeholder</p>
-              <p class="text-sm text-gray-400">Product distribution by price range</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Carts Overview Chart -->
-        <div class="bg-white rounded-lg shadow-sm p-6 ">
-          <h3 class="text-lg font-semibold text-gray-700 mb-4">Carts Overview</h3>
-          <div class="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
-            <div class="text-center">
-              <i class="pi pi-chart-pie text-4xl text-gray-400 mb-2"></i>
-              <p class="text-gray-500">Pie Chart Placeholder</p>
-              <p class="text-sm text-gray-400">Cart status distribution</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Top Active Users -->
-        <div class="bg-white rounded-lg shadow-sm p-6 ">
-          <h3 class="text-lg font-semibold text-gray-700 mb-4">Top Active Users</h3>
-          <div class="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
-            <div class="text-center">
-              <i class="pi pi-users text-4xl text-gray-400 mb-2"></i>
-              <p class="text-gray-500">List Placeholder</p>
-              <p class="text-sm text-gray-400">Most active users this month</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Recent Activity / Feed Section -->
-    <section class="space-y-4">
-      <h2 class="text-2xl font-bold text-gray-800 mb-6">Recent Activity / Feed</h2>
-      <div class="bg-white rounded-lg shadow-sm ">
-        <div class="p-6">
-          <div class="space-y-4">
-            <!-- Activity Item 1 -->
-            <div class="flex items-start space-x-3 p-3 hover:bg-gray-50 rounded-lg transition-colors">
-              <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                <i class="pi pi-user-plus text-blue-600 text-sm"></i>
-              </div>
-              <div class="flex-1">
-                <p class="text-gray-800">
-                  <span class="font-medium">New user registered</span>
-                  <span class="text-gray-600"> (John Doe)</span>
-                </p>
-                <p class="text-sm text-gray-500">2 minutes ago</p>
-              </div>
-            </div>
-
-            <!-- Activity Item 2 -->
-            <div class="flex items-start space-x-3 p-3 hover:bg-gray-50 rounded-lg transition-colors">
-              <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                <i class="pi pi-shopping-bag text-green-600 text-sm"></i>
-              </div>
-              <div class="flex-1">
-                <p class="text-gray-800">
-                  <span class="font-medium">New product added</span>
-                  <span class="text-gray-600"> (iPhone 15)</span>
-                </p>
-                <p class="text-sm text-gray-500">15 minutes ago</p>
-              </div>
-            </div>
-
-            <!-- Activity Item 3 -->
-            <div class="flex items-start space-x-3 p-3 hover:bg-gray-50 rounded-lg transition-colors">
-              <div class="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
-                <i class="pi pi-comment text-orange-600 text-sm"></i>
-              </div>
-              <div class="flex-1">
-                <p class="text-gray-800">
-                  <span class="font-medium">Post created:</span>
-                  <span class="text-gray-600"> "Tech in 2025"</span>
-                </p>
-                <p class="text-sm text-gray-500">1 hour ago</p>
-              </div>
-            </div>
-
-            <!-- Activity Item 4 -->
-            <div class="flex items-start space-x-3 p-3 hover:bg-gray-50 rounded-lg transition-colors">
-              <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
-                <i class="pi pi-shopping-cart text-purple-600 text-sm"></i>
-              </div>
-              <div class="flex-1">
-                <p class="text-gray-800">
-                  <span class="font-medium">Cart updated</span>
-                  <span class="text-gray-600"> (#123, 3 items)</span>
-                </p>
-                <p class="text-sm text-gray-500">2 hours ago</p>
-              </div>
-            </div>
-
-            <!-- Activity Item 5 -->
-            <div class="flex items-start space-x-3 p-3 hover:bg-gray-50 rounded-lg transition-colors">
-              <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                <i class="pi pi-check text-red-600 text-sm"></i>
-              </div>
-              <div class="flex-1">
-                <p class="text-gray-800">
-                  <span class="font-medium">Todo completed</span>
-                  <span class="text-gray-600">" Update user dashboard"</span>
-                </p>
-                <p class="text-sm text-gray-500">3 hours ago</p>
-              </div>
-            </div>
-
-            <!-- Activity Item 6 -->
-            <div class="flex items-start space-x-3 p-3 hover:bg-gray-50 rounded-lg transition-colors">
-              <div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0">
-                <i class="pi pi-comment text-indigo-600 text-sm"></i>
-              </div>
-              <div class="flex-1">
-                <p class="text-gray-800">
-                  <span class="font-medium">New comment added</span>
-                  <span class="text-gray-600"> on "Vue 3 Best Practices"</span>
-                </p>
-                <p class="text-sm text-gray-500">4 hours ago</p>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="rounded-lg shadow-sm w-full">
+        <AppTable
+          :data="topProducts"
+          :columns="topProductsColumns"
+          :loading="productStore.loading"
+          header="Top selling products"
+        />
       </div>
     </section>
   </main>

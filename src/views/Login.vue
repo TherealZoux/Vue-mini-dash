@@ -27,6 +27,7 @@
           :validation-schema="LoginSchema"
           :onSubmit="handleLogin"
           :initial-values="initialValues"
+          :login="true"
           v-if="!loading"
         >
           <template #default="{ errors }">
@@ -86,7 +87,7 @@
 
             </div>
           </template>
-        </AppForm>
+        </AppForm >
 
         <!-- Loading State -->
         <div v-else class="flex flex-col items-center justify-center py-8 space-y-4">
