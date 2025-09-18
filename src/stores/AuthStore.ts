@@ -6,7 +6,9 @@ import { useCrud } from "@/composables/useCrud";
 
 export const useAuthStore = defineStore("AuthStore", () => {
   const toast = useToast();
-  const sidebar = ref(false);
+  const windowWidth = ref();
+  const sidebar = ref(windowWidth.value > 500 ? true : false);
+
   const { data, loading, error } = useCrud("/users");
 
   const checkAuth = async () => {
@@ -22,7 +24,7 @@ export const useAuthStore = defineStore("AuthStore", () => {
       return false;
     }
   };
-  
+
   const handleLogin = async (values: any) => {
     try {
       const res = await axios.post("https://dummyjson.com/auth/login", {
@@ -40,7 +42,7 @@ export const useAuthStore = defineStore("AuthStore", () => {
         detail: `Welcome ${res.data.username}`,
         life: 3000,
       });
-      if(res.status === 200){
+      if (res.status === 200) {
         sidebar.value = true;
       }
       return res;
@@ -54,18 +56,32 @@ export const useAuthStore = defineStore("AuthStore", () => {
           err.response.data.message || "Failed to Login, Check crefintails",
         life: 3000,
       });
-    } 
+    }
   };
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
+  };
+  const setWindowWidth = (width: number) => {
+    windowWidth.value = width;
+    if (width > 500) {
+      sidebar.value = true;
+    } else {
+      sidebar.value = false;
+    }
+  };
+  const setSidebarValue = (value: boolean) => {
+    sidebar.value = value;
   };
 
   return {
     data,
     sidebar,
     loading,
+    windowWidth,
     error,
     handleLogin,
     checkAuth,
+    setWindowWidth,
+    setSidebarValue,
   };
 });

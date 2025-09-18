@@ -3,7 +3,18 @@
     <div class="w-full px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-[2.4rem]">
         <!-- Left side - Search and Logo -->
-        <div class="flex items-center space-x-4"></div>
+        <div class="flex items-center space-x-4">
+          <Button
+            v-if="authStore.windowWidth < 500"
+            icon="pi pi-bars"
+            severity="secondary"
+            text
+            rounded
+            @click="authStore.setSidebarValue(!authStore.sidebar)"
+            class="hover:!bg-gray-100 dark:hover:!bg-gray-700"
+            v-tooltip.top="'Toggle Sidebar'"
+          />
+        </div>
 
         <!-- Right side - Actions and User Menu -->
         <div class="flex items-center space-x-4">
@@ -14,13 +25,12 @@
             text
             rounded
             @click="toggleDarkMode"
-            class=" hover:!bg-gray-100 dark:hover:!bg-gray-700"
+            class="hover:!bg-gray-100 dark:hover:!bg-gray-700"
             v-tooltip.top="
               isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'
             "
           />
-
-          <!-- Language Switcher -->
+          <!-- 
           <div class="relative">
             <Button
               icon="pi pi-globe"
@@ -33,7 +43,6 @@
             />
             <i class="pi pi-chevron-down text-xs ml-1 text-gray-400"></i>
 
-            <!-- Language Dropdown -->
             <div
               v-if="showLanguageDropdown"
               class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 rounded-md shadow-lg py-1 z-50 border border-gray-200 dark:border-gray-600"
@@ -52,13 +61,13 @@
                 ></i>
               </button>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
 
     <!-- Mobile Search Bar -->
-    <div class="md:hidden px-4 pb-4">
+    <!-- <div class="md:hidden px-4 pb-4">
       <div class="relative">
         <div
           class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
@@ -71,19 +80,25 @@
           class="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm"
         />
       </div>
-    </div>
+    </div> -->
   </nav>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/AuthStore";
 import { useUserStore } from "@/stores/UserStore";
 import Button from "primevue/button";
 import Badge from "primevue/badge";
+import Tooltip from "primevue/tooltip";
+
+// Register tooltip directive
+const vTooltip = Tooltip;
 
 const router = useRouter();
 const userStore = useUserStore();
+const authStore = useAuthStore();
 
 // Reactive data
 const isDarkMode = ref(false);

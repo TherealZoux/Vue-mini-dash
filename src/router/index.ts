@@ -20,21 +20,21 @@ const router = createRouter({
       name: "Products",
       component: () => import("../views/products.vue"),
     },
-    {
-      path: "/carts",
-      name: "Carts",
-      component: () => import("../views/carts.vue"),
-    },
+    // {
+    //   path: "/carts",
+    //   name: "Carts",
+    //   component: () => import("../views/carts.vue"),
+    // },
     {
       path: "/posts",
       name: "Posts",
       component: () => import("../views/posts.vue"),
     },
-    {
-      path: "/recipes",
-      name: "Recipes",
-      component: () => import("../views/recipes.vue"),
-    },
+    // {
+    //   path: "/recipes",
+    //   name: "Recipes",
+    //   component: () => import("../views/recipes.vue"),
+    // },
     {
       path: "/users",
       name: "Users",
@@ -47,11 +47,11 @@ const router = createRouter({
     },
   ],
 });
-router.beforeEach(async(to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
   const isAuthenticated = await authStore.checkAuth();
   const isLoginRoute = to.path === "/login";
-  
+
   if (!isAuthenticated && !isLoginRoute) {
     // Not authenticated and trying to access a protected route
     next("/login");

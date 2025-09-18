@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="props.class">
     <DataTable :value="data || []" :loading="loading">
       <template #header v-if="props.header">
         <div class="flex flex-wrap items-center justify-between gap-2">
@@ -63,11 +63,11 @@
         </template>
       </Column>
     </DataTable>
-    <Paginator :rows="10" :totalRecords="120" />
+    <!-- <Paginator :rows="10" :totalRecords="120" /> -->
   </div>
   <CRUDDialog
     :fields="fields"
-    :title="header"
+    :title="addDialogTitle"
     :visible="visible"
     :initialData="initialValues"
     :validationSchema="validationSchema"
@@ -81,6 +81,7 @@ import { ref, onMounted } from "vue";
 import DataTable from "primevue/datatable";
 import Paginator from "primevue/paginator";
 import Column from "primevue/column";
+import type { DefineComponent } from "vue";
 import CRUDDialog from "./dialogs/CRUDDialog.vue";
 import { Field } from "vee-validate";
 
@@ -88,7 +89,9 @@ const props = defineProps({
   data: Array as () => any[],
   columns: Array as () => any[],
   header: String,
+  addDialogTitle: String,
   loading: Boolean,
+  class: String,
   actions: {
     type: Array as () => string[],
     default: () => [],

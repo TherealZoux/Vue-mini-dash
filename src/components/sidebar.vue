@@ -1,8 +1,10 @@
 <template>
-  <div class="flex justify-center rounded-none border-r-1 border-gray-100">
-    <div class="w-full md:w-64 flex flex-col h-full shadow-lg transition-colors duration-300">
+  <div class="flex justify-center rounded-none border-r-1">
+    <div
+      class="w-full md:w-64 flex flex-col h-full shadow-lg transition-colors duration-300"
+    >
       <!-- Header -->
-      <div class="p-4 border-b border-gray-200">
+      <div class="p-4 border-b">
         <div class="inline-flex items-center gap-2">
           <svg
             width="35"
@@ -31,17 +33,22 @@
       <div class="flex-1 overflow-y-auto py-4">
         <div v-for="section in menuItems" :key="section.label || 'separator'">
           <!-- Section Separator -->
-          <div v-if="section.separator" class="border-t border-gray-200  my-4 "></div>
-          
+          <div
+            v-if="section.separator"
+            class="border-t border-gray-200 my-4"
+          ></div>
+
           <!-- Section with Items -->
           <div v-else>
             <!-- Section Header -->
             <div class="px-4 mb-3">
-              <h3 class="text-xs font-semibold text-gray-500  uppercase tracking-wider">
+              <h3
+                class="text-xs font-semibold text-gray-500 uppercase tracking-wider"
+              >
                 {{ section.label }}
               </h3>
             </div>
-            
+
             <!-- Section Items -->
             <div class="space-y-1">
               <a
@@ -51,28 +58,38 @@
                 :aria-current="isActive(item.to) ? 'page' : null"
                 :class="[
                   'group flex items-center px-4 py-2 text-sm font-medium cursor-pointer transition-colors duration-150 rounded-md',
-                  isActive(item.to)
-                    ? 'text-blue-700 bg-blue-50'
-                    : 'hover:text-blue-700 dark:hover:text-blue-400'
+                  isActive(item.to) ? 'text-blue-700 ' : 'hover:text-blue-700',
                 ]"
               >
-                <i :class="[item.icon, 'mr-3 h-5 w-5', isActive(item.to) ? 'text-blue-600' : 'group-hover:text-blue-500 dark:group-hover:text-blue-400']"></i>
+                <i
+                  :class="[
+                    item.icon,
+                    'mr-3 h-5 w-5',
+                    isActive(item.to)
+                      ? 'text-blue-600'
+                      : 'group-hover:text-blue-500',
+                  ]"
+                ></i>
                 <span>{{ item.label }}</span>
-                <Badge v-if="item.badge" class="ml-auto" :value="item.badge" severity="info" />
+                <Badge
+                  v-if="item.badge"
+                  class="ml-auto"
+                  :value="item.badge"
+                  severity="info"
+                />
               </a>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Footer -->
       <div class="p-4 border-t border-gray-200">
-        <Button 
-          label="Log out" 
-          icon="pi pi-sign-out" 
+        <Button
+          label="Log out"
+          icon="pi pi-sign-out"
           severity="secondary"
-          class="w-full  !border-red-200  !text-red-500 hover:!text-red-700 !border-solid" 
-          @click="handleLogout" 
+          class="w-full !border-red-200 !text-red-500 hover:!text-red-700 !border-solid"
+          @click="handleLogout"
         />
       </div>
     </div>
@@ -85,85 +102,86 @@ import { useRoute } from "vue-router";
 import Button from "primevue/button";
 import Badge from "primevue/badge";
 import router from "@/router";
+import { Card } from "primevue";
 
 // Menu items structure for PrimeVue Menu component
 const menuItems = ref([
   // Dashboard Section
   {
-    label: 'Dashboard',
+    label: "Dashboard",
     items: [
       {
-        label: 'Home',
-        icon: 'pi pi-home',
-        to: '/',
-        command: () => router.push('/')
+        label: "Home",
+        icon: "pi pi-home",
+        to: "/",
+        command: () => router.push("/"),
       },
       {
-        label: 'Profile',
-        icon: 'pi pi-user',
-        to: '/profile',
-        command: () => router.push('/profile')
-      }
-    ]
+        label: "Profile",
+        icon: "pi pi-user",
+        to: "/profile",
+        command: () => router.push("/profile"),
+      },
+    ],
   },
   {
-    separator: true
+    separator: true,
   },
   // E-commerce Section
   {
-    label: 'E-commerce',
+    label: "E-commerce",
     items: [
       {
-        label: 'Products',
-        icon: 'pi pi-box',
-        to: '/products',
-        command: () => router.push('/products')
+        label: "Products",
+        icon: "pi pi-box",
+        to: "/products",
+        command: () => router.push("/products"),
       },
-      {
+      /* {
         label: 'Carts',
         icon: 'pi pi-shopping-cart',
         to: '/carts',
         command: () => router.push('/carts'),
         badge: '3'
-      }
-    ]
+        }*/
+    ],
   },
   {
-    separator: true
+    separator: true,
   },
   // Content Management Section
   {
-    label: 'Content',
+    label: "Content",
     items: [
       {
-        label: 'Posts',
-        icon: 'pi pi-pencil',
-        to: '/posts',
-        command: () => router.push('/posts')
+        label: "Posts",
+        icon: "pi pi-pencil",
+        to: "/posts",
+        command: () => router.push("/posts"),
       },
-      {
-        label: 'Recipes',
-        icon: 'pi pi-book',
-        to: '/recipes',
-        command: () => router.push('/recipes')
-      }
-    ]
+      // {
+      //   label: "Recipes",
+      //   icon: "pi pi-book",
+      //   to: "/recipes",
+      //   command: () => router.push("/recipes"),
+      // },
+    ],
   },
   {
-    separator: true
+    separator: true,
   },
   // Management Section
   {
-    label: 'Management',
+    label: "Management",
     items: [
       {
-        label: 'Users',
-        icon: 'pi pi-users',
-        to: '/users',
-        command: () => router.push('/users')
-      }
-    ]
-  }
+        label: "Users",
+        icon: "pi pi-users",
+        to: "/users",
+        command: () => router.push("/users"),
+      },
+    ],
+  },
 ]);
 
 const route = useRoute();
@@ -173,7 +191,6 @@ const handleLogout = () => {
   localStorage.clear();
   window.location.reload();
 };
-
 </script>
 
 <style scoped>

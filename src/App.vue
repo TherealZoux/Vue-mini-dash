@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
 import Toast from "primevue/toast";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch, onUnmounted } from "vue";
 import { useAuthStore } from "./stores/AuthStore";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
@@ -10,17 +10,24 @@ import Navbar from "./components/Navbar.vue";
 
 const authStore = useAuthStore();
 const sidebar = computed(() => authStore.sidebar);
-const loading = ref(true);
+const loading = ref(authStore.loading);
 const router = useRouter();
 const route = useRoute();
+
 onMounted(async () => {
   const res = await authStore.checkAuth();
   if (!res) {
     router.push("/login");
   }
-  setTimeout(() => {
-    loading.value = authStore.loading;
-  }, 1000);
+  authStore.setWindowWidth(window.innerWidth);
+  const handleResize = () => {
+    authStore.setWindowWidth(window.innerWidth);
+  };
+  window.addEventListener("resize", handleResize);
+
+  onUnmounted(() => {
+    window.removeEventListener("resize", handleResize);
+  });
 });
 </script>
 
@@ -35,7 +42,20 @@ onMounted(async () => {
 
     <!-- Main content area -->
     <main class="flex flex-1 overflow-hidden">
-      <Sidebar v-if="sidebar && route.name !== 'Login'" />
+      <Sidebar
+        v-if="sidebar && route.name !== 'Login'"
+        :style="
+          authStore.windowWidth < 500
+            ? {
+                width: '100%',
+                position: 'absolute',
+                background: 'white',
+                top: '40px',
+                zIndex: 100,
+              }
+            : {}
+        "
+      />
       <main class="w-full flex flex-col overflow-y-auto bg-[#b2b2b20f]">
         <Navbar v-if="route.name !== 'Login'" class="h-fit" />
         <RouterView />

@@ -91,7 +91,7 @@
             :name="field.name"
             v-slot="{ field: fieldProps, errorMessage }"
           >
-            <Dropdown
+            <Select
               v-bind="fieldProps"
               :id="field.name"
               :options="field.options"
@@ -99,7 +99,29 @@
               :optionValue="field.optionValue || 'value'"
               :placeholder="field.placeholder || 'Select an option'"
               :class="{ 'p-invalid': errorMessage }"
+              filter
               class="w-full"
+              @change="
+                (event) => {
+                  // Extract the value from the event object
+                  const selectedValue = event.value;
+
+                  // If the field expects a number, cast the value to number
+                  if (
+                    field.type === 'select' &&
+                    (field.valueType === 'number' || field.valueType === Number)
+                  ) {
+                    const numericValue =
+                      selectedValue !== null && selectedValue !== undefined
+                        ? Number(selectedValue)
+                        : selectedValue;
+
+                    fieldProps.onChange && fieldProps.onChange(numericValue);
+                  } else {
+                    fieldProps.onChange && fieldProps.onChange(selectedValue);
+                  }
+                }
+              "
             />
             <small v-if="errorMessage" class="text-red-500 text-xs">
               {{ errorMessage }}
@@ -126,6 +148,25 @@
                 {{ field.checkboxLabel || field.label }}
               </label>
             </div>
+            <small v-if="errorMessage" class="text-red-500 text-xs">
+              {{ errorMessage }}
+            </small>
+          </Field>
+          <!-- Password Input -->
+          <Field
+            v-else-if="field.type === 'password'"
+            :name="field.name"
+            :type="field.type"
+            v-slot="{ field: fieldProps, errorMessage }"
+          >
+            <InputText
+              v-bind="fieldProps"
+              :id="field.name"
+              :type="'password'"
+              :placeholder="field.placeholder"
+              :class="{ 'p-invalid': errorMessage }"
+              class="w-full"
+            />
             <small v-if="errorMessage" class="text-red-500 text-xs">
               {{ errorMessage }}
             </small>
@@ -178,6 +219,7 @@ import InputText from "primevue/inputtext";
 import InputNumber from "primevue/inputnumber";
 import Textarea from "primevue/textarea";
 import Dropdown from "primevue/dropdown";
+import Select from "primevue/select";
 import Checkbox from "primevue/checkbox";
 import Calendar from "primevue/calendar";
 import Button from "primevue/button";
