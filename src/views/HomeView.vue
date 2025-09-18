@@ -110,7 +110,7 @@ onMounted(() => {
     <section class="space-y-4">
       <h2 class="text-2xl font-bold text-gray-800 mb-6">Overview Cards</h2>
       <div
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8"
       >
         <StateCard
           title="Users"

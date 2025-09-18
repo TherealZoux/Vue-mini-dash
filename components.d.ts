@@ -13,6 +13,7 @@ declare module 'vue' {
     AppTable: typeof import('./src/components/AppTable.vue')['default']
     Avatar: typeof import('./src/components/Avatar.vue')['default']
     Carts: typeof import('./src/components/carts.vue')['default']
+    Credentials: typeof import('./src/components/credentials.vue')['default']
     CRUDDialog: typeof import('./src/components/dialogs/CRUDDialog.vue')['default']
     Feed: typeof import('./src/components/Feed.vue')['default']
     FeedExample: typeof import('./src/components/FeedExample.vue')['default']

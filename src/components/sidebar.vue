@@ -58,9 +58,7 @@
                 :aria-current="isActive(item.to) ? 'page' : null"
                 :class="[
                   'group flex items-center px-4 py-2 text-sm font-medium cursor-pointer transition-colors duration-150 rounded-md',
-                  isActive(item.to)
-                    ? 'text-blue-700 bg-blue-50'
-                    : 'hover:text-blue-700 dark:hover:text-blue-400',
+                  isActive(item.to) ? 'text-blue-700 ' : 'hover:text-blue-700',
                 ]"
               >
                 <i
@@ -69,7 +67,7 @@
                     'mr-3 h-5 w-5',
                     isActive(item.to)
                       ? 'text-blue-600'
-                      : 'group-hover:text-blue-500 dark:group-hover:text-blue-400',
+                      : 'group-hover:text-blue-500',
                   ]"
                 ></i>
                 <span>{{ item.label }}</span>
@@ -85,7 +83,6 @@
         </div>
       </div>
 
-      <!-- Footer -->
       <div class="p-4 border-t border-gray-200">
         <Button
           label="Log out"
@@ -105,6 +102,7 @@ import { useRoute } from "vue-router";
 import Button from "primevue/button";
 import Badge from "primevue/badge";
 import router from "@/router";
+import { Card } from "primevue";
 
 // Menu items structure for PrimeVue Menu component
 const menuItems = ref([

@@ -81,6 +81,7 @@ import { ref, onMounted } from "vue";
 import DataTable from "primevue/datatable";
 import Paginator from "primevue/paginator";
 import Column from "primevue/column";
+import type { DefineComponent } from "vue";
 import CRUDDialog from "./dialogs/CRUDDialog.vue";
 import { Field } from "vee-validate";
 
