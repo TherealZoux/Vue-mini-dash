@@ -20,7 +20,7 @@ const userStore = useUserStore();
 const { t, locale } = useI18n();
 
 const topProducts = computed(() =>
-  productStore?.data?.products?.filter((product: any) => product.rating > 4)
+  productStore?.data?.products?.filter((product: any) => product?.rating > 4)
 );
 const topProductsColumns = [
   { field: "title", header: "Title" },
