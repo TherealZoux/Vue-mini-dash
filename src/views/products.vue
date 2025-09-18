@@ -1,5 +1,5 @@
 <template>
-  <section class="w-[95%] ml-8 mt-8">
+  <section class="p-8">
     <SectionHeader
       title="Products"
       desc="View all products details here."
@@ -13,7 +13,6 @@
       :data="products"
       header="All products"
       class="mt-8"
-      :actions="actions"
       :initialValues="initialValues"
       :fields="fields"
       :visible="visible"

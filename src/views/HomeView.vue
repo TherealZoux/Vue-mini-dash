@@ -19,19 +19,29 @@ const cartsStore = useCartsStore();
 const userStore = useUserStore();
 const { t, locale } = useI18n();
 
-const categories = computed(() => productStore?.categories);
-const counts = [15, 8, 12, 5, 10];
 const topProducts = computed(() =>
-  productStore?.data?.products?.filter((product: any) => product.rating > 4.5)
+  productStore?.data?.products?.filter((product: any) => product.rating > 4)
 );
 const topProductsColumns = [
   { field: "title", header: "Title" },
-  { field: "thumbnail", header: "Image", template: (row: any) => {
-    return h('img', { src: row.thumbnail, class: 'w-1/2', alt: row.title || "thumbnail" });
-  }},
+  {
+    field: "thumbnail",
+    header: "Image",
+    template: (row: any) => {
+      return h("img", {
+        src: row.thumbnail,
+        class: "w-1/2",
+        alt: row.title || "thumbnail",
+      });
+    },
+  },
   { field: "brand", header: "Brand" },
   { field: "price", header: "Price", formatter: (val: number) => val + "$" },
-  { field: "discountPercentage", header: "Discount (%)", formatter: (val: number) => val ? val.toFixed(2) + "%" : "_" },
+  {
+    field: "discountPercentage",
+    header: "Discount (%)",
+    formatter: (val: number) => (val ? val.toFixed(2) + "%" : "_"),
+  },
   { field: "stock", header: "Stock" },
   { field: "category", header: "Category" },
   { field: "warrantyInformation", header: "Warranty" },
@@ -59,20 +69,27 @@ const topProductsColumns = [
         stars.push(h("i", { class: "pi pi-star text-yellow-500 mr-1 " }));
       }
 
-      return h("div", { class: "flex items-center" }, [...stars, `(${row.rating})`]);
+      return h("div", { class: "flex items-center" }, [
+        ...stars,
+        `(${row.rating})`,
+      ]);
     },
   },
-  { field: "availabilityStatus", header: "Availability", template: (row: any) => {
-    let colorClass = '';
-    if (row.availabilityStatus === 'In Stock') {
-      colorClass = 'bg-green-100 rounded p-1 text-green-600';
-    } else if (row.availabilityStatus === 'Low Stock') {
-      colorClass = 'bg-yellow-100 rounded p-1 text-yellow-700';
-    } else {
-      colorClass = 'bg-red-300 rounded border-1';
-    }
-    return h('span', { class: colorClass }, row.availabilityStatus);
-  }},
+  {
+    field: "availabilityStatus",
+    header: "Availability",
+    template: (row: any) => {
+      let colorClass = "";
+      if (row.availabilityStatus === "In Stock") {
+        colorClass = "bg-green-100 rounded p-1 text-green-600";
+      } else if (row.availabilityStatus === "Low Stock") {
+        colorClass = "bg-yellow-100 rounded p-1 text-yellow-700";
+      } else {
+        colorClass = "bg-red-300 rounded border-1";
+      }
+      return h("span", { class: colorClass }, row.availabilityStatus);
+    },
+  },
 ];
 onMounted(() => {
   Promise.all([
@@ -88,7 +105,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="w-full p-6 space-y-8">
+  <main class="p-8">
     <!-- Overview Cards Section -->
     <section class="space-y-4">
       <h2 class="text-2xl font-bold text-gray-800 mb-6">Overview Cards</h2>

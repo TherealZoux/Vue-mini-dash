@@ -1,6 +1,9 @@
 <template>
-  <section class="w-[95%] ml-8 mt-8">
-    <div class="w-full h-[80vh] flex items-center justify-center " v-if="loading">
+  <section class="p-8">
+    <div
+      class="w-full h-[80vh] flex items-center justify-center"
+      v-if="loading"
+    >
       <Spinner class="m-auto" />
     </div>
     <div v-else class="flex flex-col gap-4">
@@ -141,7 +144,7 @@
                 </div>
 
                 <!-- Badges Section -->
-                <div class="flex justify-start gap-[12rem]">
+                <div class="flex justify-between flex-wrap">
                   <div>
                     <h4 class="font-semibold mb-3">Badges</h4>
                     <div class="flex space-x-2">
@@ -178,7 +181,7 @@
                 <div
                   v-for="post in posts.posts"
                   :key="post.id"
-                  class="flex items-start gap-3 p-4 rounded-lg border border-gray-200 transition-colors"
+                  class="flex flex-wrap items-start gap-3 p-4 rounded-lg border border-gray-200 transition-colors"
                 >
                   <img :src="data.image" alt="" class="rounded-full w-[3rem]" />
                   <div class="flex-1 min-w-0">
@@ -250,7 +253,6 @@ onMounted(async () => {
     }
   } catch (err) {
     console.log(err);
-    
   } finally {
     loading.value = false;
   }

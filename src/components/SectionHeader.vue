@@ -4,21 +4,26 @@
       <h1 class="text-4xl">{{ title }}</h1>
       <p class="text-xl">{{ desc }}</p>
     </div>
-    <Button :label="addButtonTitle" v-if="showAddButton" severity="info" @click="$emit('add')" class="h-10"/>
+    <Button
+      :label="addButtonTitle"
+      v-if="showAddButton"
+      severity="info"
+      @click="$emit('add')"
+      class="h-10"
+    />
   </section>
 </template>
 
 <script lang="ts" setup>
-import Button from 'primevue/button';
-
+import Button from "primevue/button";
 
 const props = defineProps<{
   title: string;
   desc?: string;
   showAddButton?: boolean;
-  addButtonTitle: string;
+  addButtonTitle?: string;
 }>();
 
-const emits = defineEmits(['add'])
+const emits = defineEmits(["add"]);
 </script>
 <style></style>

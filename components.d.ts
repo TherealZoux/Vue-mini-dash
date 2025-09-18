@@ -14,6 +14,8 @@ declare module 'vue' {
     Avatar: typeof import('./src/components/Avatar.vue')['default']
     Carts: typeof import('./src/components/carts.vue')['default']
     CRUDDialog: typeof import('./src/components/dialogs/CRUDDialog.vue')['default']
+    Feed: typeof import('./src/components/Feed.vue')['default']
+    FeedExample: typeof import('./src/components/FeedExample.vue')['default']
     KpiCard: typeof import('./src/components/KpiCard.vue')['default']
     Navbar: typeof import('./src/components/Navbar.vue')['default']
     PolarAreaChart: typeof import('./src/components/PolarAreaChart.vue')['default']
