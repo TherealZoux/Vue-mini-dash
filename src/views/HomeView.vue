@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useI18n } from "vue-i18n";
 import { useProductsStore } from "@/stores/ProductsStore";
 import { usePostsStore } from "@/stores/PostsStore";
 import { useTodosStore } from "@/stores/TodosStore";
@@ -17,7 +16,6 @@ const postsStore = usePostsStore();
 const todosStore = useTodosStore();
 const cartsStore = useCartsStore();
 const userStore = useUserStore();
-const { t, locale } = useI18n();
 
 const topProducts = computed(() =>
   productStore?.data?.products?.filter((product: any) => product?.rating > 4)
