@@ -3,8 +3,8 @@ import Aura from "@primeuix/themes/aura";
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import PrimeVue from "primevue/config";
-import ToastService from 'primevue/toastservice';
-import i18n from './plugins/i18n'
+import ToastService from "primevue/toastservice";
+// import i18n from './plugins/i18n'
 import App from "./App.vue";
 import router from "./router";
 
@@ -21,6 +21,6 @@ app.use(PrimeVue, {
   },
 });
 app.use(ToastService);
-app.use(i18n);
+// app.use(i18n);
 
 app.mount("#app");
