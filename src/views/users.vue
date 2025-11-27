@@ -1,5 +1,6 @@
 <template>
-  <section class="p-8">
+  <section class="p-8 relative
+    ">
     <SectionHeader
       title="Users"
       desc="View all Users details here."
@@ -7,7 +8,7 @@
       add-button-title="Add new User"
       @add="openAddDialog"
     />
-    <hr class="text-gray-200 mt-4" />
+    <hr class="text-gray-200 mt-4 absolute left-0 w-full" />
     <AppTable
       :columns="columns"
       :data="users"

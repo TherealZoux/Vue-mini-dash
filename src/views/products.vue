@@ -1,5 +1,5 @@
 <template>
-  <section class="p-8">
+  <section class="p-8 relative">
     <SectionHeader
       title="Products"
       desc="View all products details here."
@@ -7,8 +7,13 @@
       add-button-title="Add new product"
       @add="openAddDialog"
     />
-    <hr class="text-gray-200 mt-4" />
-    <AppTable
+    <hr class="text-gray-200 mt-4 absolute left-0 w-full" />
+    <div class="flex flex-wrap gap-8 justify-center items-center mt-8">
+      <ProductCard
+      v-for="product in products" :product="product"
+      />
+    </div>
+   <!--  <AppTable
       :columns="columns"
       :data="products"
       header="All products"
@@ -20,12 +25,13 @@
       @close="handleCloseDialog"
       @save="handleAddProduct"
       :submit="handleAddProduct"
-    />
-  </section>
+    /> -->
+</section>
 </template>
 
 <script lang="ts" setup>
 import AppTable from "@/components/AppTable.vue";
+import ProductCard from '../components/ProductCard.vue'
 import SectionHeader from "@/components/SectionHeader.vue";
 import { useProductsStore } from "@/stores/ProductsStore";
 import { computed, onMounted, h, ref } from "vue";

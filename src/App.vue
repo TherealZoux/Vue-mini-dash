@@ -41,7 +41,7 @@ onMounted(async () => {
     <!-- Navbar - only show when not on login page -->
 
     <!-- Main content area -->
-    <main class="flex flex-1 overflow-hidden">
+    <main class="flex flex-1 overflow-hidden bg-[#b2b2b20f]">
       <Sidebar
         v-if="sidebar && route.name !== 'Login'"
         :style="
@@ -56,7 +56,7 @@ onMounted(async () => {
             : {}
         "
       />
-      <main class="w-full flex flex-col overflow-y-auto bg-[#b2b2b20f]">
+      <main class="w-full flex flex-col overflow-y-auto m-2 rounded-lg border-1 border-gray-200 bg-white">
         <Navbar v-if="route.name !== 'Login'" class="h-fit" />
         <RouterView />
       </main>

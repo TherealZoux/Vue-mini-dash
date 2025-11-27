@@ -1,10 +1,12 @@
 <template>
-  <div class="flex justify-center rounded-none border-r-1">
+  <div class="flex justify-center rounded-none m-2 w-[5.6rem]">
     <div
-      class="w-full md:w-64 flex flex-col h-full shadow-lg transition-colors duration-300"
+      class="w-full md:w-64 flex flex-col h-full shadow-lg transition-colors duration-300 rounded-lg border-1 border-gray-200"
     >
       <!-- Header -->
-      <div class="p-4 border-b">
+      <div
+        class="p-4 pt-[22px] border-b border-gray-200 flex justify-center items-center"
+      >
         <div class="inline-flex items-center gap-2">
           <svg
             width="35"
@@ -23,14 +25,11 @@
               fill="var(--p-text-color)"
             />
           </svg>
-          <span class="text-xl font-semibold text-gray-800">
-            PRIME<span class="text-blue-600">APP</span>
-          </span>
         </div>
       </div>
 
       <!-- Navigation Menu -->
-      <div class="flex-1 overflow-y-auto py-4">
+      <div class="flex-1 overflow-y-auto py-4 flex flex-col justify-center">
         <div v-for="section in menuItems" :key="section.label || 'separator'">
           <!-- Section Separator -->
           <div
@@ -40,43 +39,50 @@
 
           <!-- Section with Items -->
           <div v-else>
-            <!-- Section Header -->
-            <div class="px-4 mb-3">
-              <h3
-                class="text-xs font-semibold text-gray-500 uppercase tracking-wider"
-              >
-                {{ section.label }}
-              </h3>
-            </div>
-
             <!-- Section Items -->
-            <div class="space-y-1">
+            <div class="space-y-1 flex flex-col justify-center items-center">
               <a
                 v-for="item in section.items"
                 :key="item.label"
                 @click="item.command"
                 :aria-current="isActive(item.to) ? 'page' : null"
                 :class="[
-                  'group flex items-center px-4 py-2 text-sm font-medium cursor-pointer transition-colors duration-150 rounded-md',
-                  isActive(item.to) ? 'text-blue-700 ' : 'hover:text-blue-700',
-                ]"
+  'group flex flex-col items-center justify-center w-full h-[3rem] px-4 py-2 text-sm font-medium cursor-pointer transition-all duration-200 rounded-md glass',
+  isActive(item.to) ? 'active-glass text-blue-700' : 'hover:text-blue-700',
+]"
+                :title="item.label"
+                @mouseover="hoveredItemLabel = item.label"
+                @mouseleave="hoveredItemLabel = null"
               >
-                <i
-                  :class="[
-                    item.icon,
-                    'mr-3 h-5 w-5',
-                    isActive(item.to)
-                      ? 'text-blue-600'
-                      : 'group-hover:text-blue-500',
-                  ]"
-                ></i>
-                <span>{{ item.label }}</span>
-                <Badge
-                  v-if="item.badge"
-                  class="ml-auto"
-                  :value="item.badge"
-                  severity="info"
-                />
+                <!-- 3D cube wrapper -->
+                <div class="cubeWrapper">
+                  <div
+                    class="cube"
+                    :class="{
+                      flipped:
+                        hoveredItemLabel === item.label || isActive(item.to),
+                    }"
+                  >
+                    <!-- FRONT (icon) -->
+                    <i
+                      :class="[
+                        item.icon,
+                        ' h-8 w-8 text-center',
+                        isActive(item.to)
+                          ? 'text-green-600'
+                          : 'group-hover:text-green-500',
+                      ]"
+                      class="face face-front !flex !items-center !justify-center"
+                    ></i>
+
+                    <!-- TOP (label) -->
+                    <span
+                      class="face face-top text-green-600 text-sm font-medium"
+                    >
+                      {{ item.label }}
+                    </span>
+                  </div>
+                </div>
               </a>
             </div>
           </div>
@@ -85,10 +91,9 @@
 
       <div class="p-4 border-t border-gray-200">
         <Button
-          label="Log out"
           icon="pi pi-sign-out"
           severity="secondary"
-          class="w-full !border-red-200 !text-red-500 hover:!text-red-700 !border-solid"
+          class="w-full !border-red-200 !text-white hover:!text-red-500 !border-solid !bg-red-400 hover:!bg-white"
           @click="handleLogout"
         />
       </div>
@@ -108,7 +113,6 @@ import { Card } from "primevue";
 const menuItems = ref([
   // Dashboard Section
   {
-    label: "Dashboard",
     items: [
       {
         label: "Home",
@@ -116,6 +120,14 @@ const menuItems = ref([
         to: "/",
         command: () => router.push("/"),
       },
+    ],
+  },
+
+  /*  {
+    separator: true,
+  },
+  {
+    items: [
       {
         label: "Profile",
         icon: "pi pi-user",
@@ -123,13 +135,12 @@ const menuItems = ref([
         command: () => router.push("/profile"),
       },
     ],
-  },
+  }, */
   {
     separator: true,
   },
   // E-commerce Section
   {
-    label: "E-commerce",
     items: [
       {
         label: "Products",
@@ -151,7 +162,6 @@ const menuItems = ref([
   },
   // Content Management Section
   {
-    label: "Content",
     items: [
       {
         label: "Posts",
@@ -172,7 +182,6 @@ const menuItems = ref([
   },
   // Management Section
   {
-    label: "Management",
     items: [
       {
         label: "Users",
@@ -186,7 +195,7 @@ const menuItems = ref([
 
 const route = useRoute();
 const isActive = (path) => route.path === path;
-
+const hoveredItemLabel = ref(null);
 const handleLogout = () => {
   localStorage.clear();
   window.location.reload();
@@ -226,5 +235,24 @@ const handleLogout = () => {
 .group:focus {
   outline: 2px solid #3b82f6;
   outline-offset: -2px;
+}
+
+.itemIcon {
+  transition: transform 0.5s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.group:hover .itemIcon {
+  transform: rotateY(180deg);
+}
+
+.itemLabel {
+  transition: transform 0.5s cubic-bezier(0.4, 0.2, 0.2, 1), opacity 0.3s;
+  transform-style: preserve-3d;
+}
+
+.group:hover .itemLabel {
+  transform: rotateY(0deg);
+  opacity: 1;
 }
 </style>

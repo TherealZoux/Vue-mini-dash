@@ -17,6 +17,8 @@ declare module 'vue' {
     Feed: typeof import('./src/components/Feed.vue')['default']
     Navbar: typeof import('./src/components/Navbar.vue')['default']
     PolarAreaChart: typeof import('./src/components/PolarAreaChart.vue')['default']
+    Post: typeof import('./src/components/Post.vue')['default']
+    ProductCard: typeof import('./src/components/ProductCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SectionHeader: typeof import('./src/components/SectionHeader.vue')['default']

@@ -1,5 +1,5 @@
 <template>
-  <section class="p-8">
+  <section class="p-8 relative">
     <SectionHeader
       title="Posts"
       desc="View all Posts details here."
@@ -7,103 +7,47 @@
       add-button-title="Add new Post"
       @add="openAddDialog"
     />
-    <hr class="text-gray-200 mt-4" />
-    <AppTable
-      :columns="columns"
-      :data="posts?.data?.posts"
-      header="All Posts"
-      add-dialog-title="Add new post"
-      class="mt-8"
-      :initialValues="initialValues"
+    <hr class="text-gray-200 mt-4 absolute left-0 w-full" />
+
+    <div class="mt-8 space-y-6 w-[54rem] mx-auto">
+      <Post v-for="post in store?.posts?.data?.posts" :key="post.id" :post="post" :comments="store?.comments?.data?.comments" />
+
+      <div
+        v-if="!store?.posts?.data?.posts?.length"
+        class="text-center text-gray-500 py-12 border rounded-2xl bg-white " 
+      >
+        Nothing to show yet. Try adding a new post.
+      </div>
+    </div>
+
+    <CRUDDialog
       :fields="fields"
+      title="Add new post"
       :visible="visible"
+      :initialData="initialValues"
       :validationSchema="validationSchema"
-      @close="handleCloseDialog"
-      :submit="handleAddProduct"
+      :submit="handleAddPost"
+      @update:visible="handleCloseDialog"
+      @cancel="handleCloseDialog"
     />
   </section>
 </template>
 
 <script lang="ts" setup>
-import AppTable from "@/components/AppTable.vue";
 import SectionHeader from "@/components/SectionHeader.vue";
+import CRUDDialog from "@/components/dialogs/CRUDDialog.vue";
 import { usePostsStore } from "@/stores/PostsStore";
 import { useUserStore } from "@/stores/UserStore";
-import { computed, onMounted, h, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import * as yup from "yup";
-
+import Post from "@/components/Post.vue";
 const store = usePostsStore();
 const usersStore = useUserStore();
-const posts = computed(() => store?.posts);
 const visible = ref(false);
 
-const columns = [
-  { field: "id", header: "ID" },
-  {
-    field: "title",
-    header: "Title",
-    formatter: (val: string) => val.slice(0, 10) + "...",
-  },
-  {
-    field: "body",
-    header: "Body",
-    formatter: (val: string) => val.slice(0, 70) + "...",
-  },
-  {
-    field: "tags",
-    header: "Tags",
-    template: (row: any) => {
-      if (!row.tags || !Array.isArray(row.tags)) return "";
-      return h(
-        "div",
-        { class: "flex flex-wrap gap-1" },
-        row.tags.map((tag: string) =>
-          h(
-            "span",
-            {
-              class:
-                "inline-block px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-700",
-            },
-            "#" + tag
-          )
-        )
-      );
-    },
-  },
-  {
-    field: "reactions",
-    header: "Likes / Dislikes",
-    template: (row: any) => {
-      const likes = row.reactions?.likes ?? 0;
-      const dislikes = row.reactions?.dislikes ?? 0;
-      return h("span", {}, [
-        h("i", { class: "pi pi-heart text-red-500 mr-1" }),
-        likes,
-        " / ",
-        h("i", { class: "pi pi-thumbs-down text-gray-500 mx-1" }),
-        dislikes,
-      ]);
-    },
-  },
-  { field: "views", header: "Views" },
-  {
-    field: "userId",
-    header: "User",
-    template: (row: any) => {
-      const user = usersStore?.data?.users?.find(
-        (user: any) => user.id === row.userId
-      );
 
-      if (!user || !user.image) return "";
-      return h("img", {
-        src: user.image,
-        width: 50,
-        alt: user.username || "User",
-        style: { borderRadius: "50%", background: "black" },
-      });
-    },
-  },
-];
+
+
 
 const initialValues = {
   id: null,
@@ -117,8 +61,6 @@ const initialValues = {
   views: 0,
   userId: 0,
 };
-
-const actions = ["view", "edit", "delet"];
 
 // Validation schema for posts (not products)
 const validationSchema = yup.object({
@@ -155,7 +97,7 @@ const openAddDialog = () => {
 const handleCloseDialog = () => {
   visible.value = false;
 };
-const handleAddProduct = async (values: any) => {
+const handleAddPost = async (values: any) => {
   try {
     await store.createPost(values);
     visible.value = false;
@@ -167,3 +109,14 @@ onMounted(async () => {
   await usersStore.getAllUsers(500, 0);
 });
 </script>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

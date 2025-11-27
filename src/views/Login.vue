@@ -204,7 +204,9 @@ const handleLogin = async (values) => {
     loading.value = true;
     const res = await AuthStore.handleLogin(values);
     if (res.status === 200) {
+      localStorage.setItem("username", initialValues.value.username);
       window.location.reload();
+
     }
   } catch (err) {
     console.log(err);
